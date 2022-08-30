@@ -17,6 +17,7 @@ public class CameraMovement : MonoBehaviour
 
     void Update()
     {
+        // old input system
         float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
         float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
         float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");

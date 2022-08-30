@@ -5,15 +5,17 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class Unit : NetworkBehaviour
+public class Unit : NetworkBehaviour, ISelectable
 {
     [SerializeField] private NavMeshAgent myAgent = null;
+    [SerializeField] private MeshRenderer unitBase = null;
     private Camera mainCamera;
     public LayerMask ground;
 
     Vector3 destination;
 
     bool stopMoving = true;
+    private bool selected = false;
 
     #region Server
 
@@ -46,6 +48,9 @@ public class Unit : NetworkBehaviour
         if (!Mouse.current.rightButton.wasPressedThisFrame)
             return;
 
+        if (!selected)
+            return;
+
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -71,6 +76,18 @@ public class Unit : NetworkBehaviour
 
         //    transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
         //}
+    }
+
+    public void Select()
+    {
+        selected = true;
+        unitBase.material.color = Color.green;
+    }
+
+    public void Deselect()
+    {
+        selected = false;
+        unitBase.material.color = Color.white;
     }
 
     #endregion
