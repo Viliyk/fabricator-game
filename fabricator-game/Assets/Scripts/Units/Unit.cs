@@ -39,6 +39,12 @@ public class Unit : NetworkBehaviour, ISelectable
         //destination = transform.position;
     }
 
+    void Start()
+    {
+        if (!hasAuthority)
+            unitBase.material.color = Color.red;
+    }
+
     [ClientCallback]
     void Update()
     {
@@ -80,12 +86,18 @@ public class Unit : NetworkBehaviour, ISelectable
 
     public void Select()
     {
+        if (!hasAuthority)
+            return;
+
         selected = true;
         unitBase.material.color = Color.green;
     }
 
     public void Deselect()
     {
+        if (!hasAuthority)
+            return;
+
         selected = false;
         unitBase.material.color = Color.white;
     }
