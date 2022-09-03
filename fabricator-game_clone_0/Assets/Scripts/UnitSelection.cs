@@ -160,6 +160,12 @@ public class UnitSelection : MonoBehaviour
             HandleSelectable(selectable);
             break;
         }
+
+        //bool raycast = Physics.Raycast(ray.origin, ray.direction, out hit, raycastMaxDistance);
+        //ISelectable a = hit.collider.GetComponentInParent<ISelectable>();
+        //if (a == null)
+        //    return;
+        //HandleSelectable(a);
     }
 
     private void ConfirmMultiSelection()

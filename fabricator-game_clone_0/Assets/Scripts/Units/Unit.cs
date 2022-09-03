@@ -14,7 +14,7 @@ public class Unit : NetworkBehaviour, ISelectable
 
     Vector3 destination;
 
-    bool stopMoving = true;
+    //bool stopMoving = true;
     private bool selected = false;
 
     #region Server
@@ -59,7 +59,7 @@ public class Unit : NetworkBehaviour, ISelectable
 
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
             return;
 
         CmdMove(hit.point);
