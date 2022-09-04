@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class Unit : NetworkBehaviour, ISelectable
+public class NetworkUnit : NetworkBehaviour, ISelectable
 {
     [SerializeField] private NavMeshAgent myAgent = null;
     [SerializeField] private MeshRenderer unitBase = null;
