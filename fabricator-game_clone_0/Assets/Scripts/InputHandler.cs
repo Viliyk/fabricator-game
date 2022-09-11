@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fabricator.Units;
 
 namespace Fabricator.InputManager
 {
@@ -18,7 +19,6 @@ namespace Fabricator.InputManager
             mainCamera = Camera.main;
         }
 
-        // Update is called once per frame
         void Update()
         {
 
@@ -26,13 +26,23 @@ namespace Fabricator.InputManager
 
         public void HandleUnitMovement()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(1))
             {
                 Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
                 if(Physics.Raycast(ray, out hit))
                 {
+                    LayerMask layerHit = hit.transform.gameObject.layer;
 
+                    switch (layerHit.value)
+                    {
+                        case 6:
+                            break;
+                        case 9:
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

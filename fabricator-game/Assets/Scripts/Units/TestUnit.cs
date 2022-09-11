@@ -4,76 +4,92 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 
-public class TestUnit : MonoBehaviour, ISelectable
+namespace Fabricator.Units
 {
-    [SerializeField] private NavMeshAgent myAgent = null;
-    [SerializeField] private MeshRenderer unitBase = null;
-    private Camera mainCamera;
-    public LayerMask ground;
-
-    Vector3 destination;
-
-    //bool stopMoving = true;
-    private bool selected = false;
-
-    void Start()
+    public class TestUnit : MonoBehaviour, ISelectable
     {
-        mainCamera = Camera.main;
-        //unitBase.material.color = Color.red;
-    }
+        [SerializeField] private NavMeshAgent myAgent = null;
+        [SerializeField] private MeshRenderer unitBase = null;
+        private Camera mainCamera;
+        public LayerMask ground;
+        public LayerMask unitLayer;
 
-    void Update()
-    {
-        if (!Mouse.current.rightButton.wasPressedThisFrame)
-            return;
+        Vector3 destination;
 
-        if (!selected)
-            return;
+        private bool selected = false;
 
-        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        public Collider[] rangeColliders;
+        public Transform aggroTarget;
+        private bool hasAggro = false;
+        private float distance;
 
-        if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
-            return;
+        public float range = 20;
 
-        Move(hit.point);
+        void Start()
+        {
+            mainCamera = Camera.main;
+            unitLayer = LayerMask.NameToLayer("Units");
+        }
 
-        //destination = hit.point;
-        //destination.y = 1f;
+        void Update()
+        {
+            CheckForTargets();
 
-        //stopMoving = false;
+            if (!Mouse.current.rightButton.wasPressedThisFrame)
+                return;
 
+            if (!selected)
+                return;
 
-        //if (!stopMoving)
-        //{
-        //    Vector3 heading = destination - transform.position;
-        //    Vector3 direction = heading / heading.magnitude;
+            Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        //    if (heading.sqrMagnitude < 0.01f)
-        //        stopMoving = true;
-        //    else
-        //        transform.position += direction * 5 * Time.deltaTime;
+            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
+                return;
 
-        //    transform.position = new Vector3(transform.position.x, 1f, transform.position.z);
-        //}
-    }
+            Move(hit.point);
+        }
 
-    private void Move(Vector3 position)
-    {
-        if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
-            return;
+        private void Move(Vector3 position)
+        {
+            if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+                return;
 
-        myAgent.SetDestination(hit.position);
-    }
+            myAgent.SetDestination(hit.position);
+        }
 
-    public void Select()
-    {
-        selected = true;
-        unitBase.material.color = Color.green;
-    }
+        public void Select()
+        {
+            selected = true;
+            unitBase.material.color = Color.green;
+        }
 
-    public void Deselect()
-    {
-        selected = false;
-        unitBase.material.color = Color.white;
+        public void Deselect()
+        {
+            selected = false;
+            unitBase.material.color = Color.white;
+        }
+
+        private void CheckForTargets()
+        {
+            rangeColliders = Physics.OverlapSphere(transform.position, range);
+
+            if (rangeColliders.Length == 2)
+            {
+                aggroTarget = null;
+                return;
+            }
+
+            for (int i = 0; i < rangeColliders.Length; i++)
+            {
+                Transform unitInRange = rangeColliders[i].transform;
+                if (unitInRange.parent == transform)
+                    continue;
+
+                if (unitInRange.gameObject.layer == unitLayer)
+                {
+                    aggroTarget = unitInRange;
+                }
+            }
+        }
     }
 }

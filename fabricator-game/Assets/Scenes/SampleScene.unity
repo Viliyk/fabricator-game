@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 6f48cb301ac108b429077391f7fde3fb, type: 2}
+--- !u!1 &88284600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 88284601}
+  - component: {fileID: 88284602}
+  m_Layer: 0
+  m_Name: UnitHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &88284601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88284600}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 541444979}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &88284602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 88284600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ce924ee82b64d8459ba2a1e57438972, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 11400000, guid: 6cc5afb26293347438d995f52e777b9e, type: 2}
+  unit2: {fileID: 11400000, guid: ff48fc52262fc184d9f1c627a2adfda5, type: 2}
+  playerUnits: {fileID: 697079554}
 --- !u!1 &316081166
 GameObject:
   m_ObjectHideFlags: 0
@@ -358,6 +404,7 @@ Transform:
   - {fileID: 996769425}
   - {fileID: 727633749}
   - {fileID: 1620915047}
+  - {fileID: 88284601}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -370,7 +417,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 697079554}
-  - component: {fileID: 697079553}
   m_Layer: 0
   m_Name: Player Units
   m_TagString: Untagged
@@ -378,20 +424,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &697079553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 697079552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ce924ee82b64d8459ba2a1e57438972, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unit: {fileID: 11400000, guid: 6cc5afb26293347438d995f52e777b9e, type: 2}
-  playerUnits: {fileID: 697079554}
 --- !u!4 &697079554
 Transform:
   m_ObjectHideFlags: 0
@@ -884,7 +916,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 8
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!64 &1074900160
 MeshCollider:

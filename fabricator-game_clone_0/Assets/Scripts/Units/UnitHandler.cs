@@ -6,13 +6,18 @@ namespace Fabricator.Units
 {
     public class UnitHandler : MonoBehaviour
     {
-        public UnitNew unit;
+        public static UnitHandler instance;
+
+        [SerializeField]
+        private UnitNew unit, unit2;
         public Transform playerUnits;
 
         void Start()
         {
-            GameObject spawnedUnit = Instantiate(unit.unitPrefab, transform.position, Quaternion.identity, playerUnits);
+            instance = this;
 
+            GameObject spawnedUnit = Instantiate(unit.unitPrefab, transform.position, Quaternion.identity, playerUnits);
+            GameObject spawnedUnit2 = Instantiate(unit2.unitPrefab, transform.position, Quaternion.identity, playerUnits);
         }
     }
 }
