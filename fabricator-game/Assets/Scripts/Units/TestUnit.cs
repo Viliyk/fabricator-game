@@ -14,7 +14,7 @@ namespace Fabricator.Units
         public LayerMask ground;
         public LayerMask unitLayer;
 
-        Vector3 destination;
+        public Vector3 destination;
 
         private bool selected = false;
 
@@ -23,7 +23,12 @@ namespace Fabricator.Units
         private bool hasAggro = false;
         private float distance;
 
-        public float range = 20;
+        public bool forceMove = false;
+
+        private float aggroRange = 10;
+        private float range = 5;
+        private float AS = 1;
+        private float AD = 2;
 
         void Start()
         {
@@ -35,17 +40,22 @@ namespace Fabricator.Units
         {
             CheckForTargets();
 
+            if (Vector3.Distance(transform.position, destination) <= 0.1f)
+                forceMove = false;
+
+            if (aggroTarget != null && !forceMove)
+            {
+                Move(aggroTarget.position);
+            }
+
             if (!Mouse.current.rightButton.wasPressedThisFrame)
                 return;
-
             if (!selected)
                 return;
-
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-
             if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
                 return;
-
+            forceMove = true;
             Move(hit.point);
         }
 
@@ -54,7 +64,8 @@ namespace Fabricator.Units
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 return;
 
-            myAgent.SetDestination(hit.position);
+            destination = hit.position;
+            myAgent.SetDestination(destination);
         }
 
         public void Select()
@@ -71,7 +82,7 @@ namespace Fabricator.Units
 
         private void CheckForTargets()
         {
-            rangeColliders = Physics.OverlapSphere(transform.position, range);
+            rangeColliders = Physics.OverlapSphere(transform.position, aggroRange);
 
             if (rangeColliders.Length == 2)
             {
@@ -88,6 +99,7 @@ namespace Fabricator.Units
                 if (unitInRange.gameObject.layer == unitLayer)
                 {
                     aggroTarget = unitInRange;
+                    break;
                 }
             }
         }
