@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class UnitSelection : MonoBehaviour
 {
+    public static UnitSelection Instance;
+
     public enum SelectionMode { Default, Add, Subtract };
 
     [Header("References")]
@@ -28,7 +30,7 @@ public class UnitSelection : MonoBehaviour
     [Range(0f, 5f), Tooltip("Radius for single selection (capsule cast) If 0 then a normal raycast is used instead")]
     public float singleSelectionRadius = 0f;
 
-    [HideInInspector] public List<ISelectable> selectedObjects = new List<ISelectable>();
+    public List<ISelectable> selectedObjects = new List<ISelectable>();
 
     // Private
     private SelectionMode selectionMode = SelectionMode.Default;
@@ -39,6 +41,11 @@ public class UnitSelection : MonoBehaviour
     private Vector2 p1, p2;
     private bool selecting = false;
     private bool multiSelect = false;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     private void Update()
     {
