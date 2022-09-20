@@ -42,6 +42,10 @@ public class UnitSelection : MonoBehaviour
     private bool selecting = false;
     private bool multiSelect = false;
 
+    // For frame rate counter
+    private float time = 1;
+    private int frames = 0;
+
     private void Awake()
     {
         Instance = this;
@@ -49,6 +53,16 @@ public class UnitSelection : MonoBehaviour
 
     private void Update()
     {
+        // Frame rate counter
+        frames++;
+        time -= Time.deltaTime;
+        if (time <= 0)
+        {
+            print(frames);
+            frames = 0;
+            time = 1;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             // Different modes (Default, add, subtract)

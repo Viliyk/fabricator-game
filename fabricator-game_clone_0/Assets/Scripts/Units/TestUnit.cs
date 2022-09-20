@@ -16,6 +16,7 @@ namespace Fabricator.Units
         public LayerMask unitLayer;
 
         public Vector3 destination;
+        public bool forceMove = false;
 
         private bool selected = false;
 
@@ -24,15 +25,15 @@ namespace Fabricator.Units
         private bool hasAggro = false;
         private float distance;
 
-        public bool forceMove = false;
+        public Slider healthBar;
 
         private float aggroRange = 10;
         private float range = 5;
         public float HP = 500;
         private float AS = 1;
-        private float AD = 2;
+        private float AD = 1;
 
-        public Slider healthBar;
+        private float attackCD = 0;
 
         void Start()
         {
@@ -45,6 +46,8 @@ namespace Fabricator.Units
         {
             healthBar.value = HP;
 
+            if (attackCD > 0)
+                attackCD -= Time.deltaTime;
 
             CheckForTargets();
 
@@ -53,19 +56,26 @@ namespace Fabricator.Units
 
             if (aggroTarget != null && !forceMove)
             {
+                // Move to range of aggro target
                 if (Vector3.Distance(transform.position, aggroTarget.position) > range)
                     Move(aggroTarget.position);
                 else
                 {
+                    // Stop when in range
                     Move(transform.position);
-                    aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP--;
+                    // Attack
+                    if (attackCD <= 0)
+                    {
+                        aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP -= AD;
+                        attackCD = 1 / AS;
+                    }
                 }
             }
 
 
             Die();
 
-
+            // Move command
             if (!Mouse.current.rightButton.wasPressedThisFrame)
                 return;
             if (!selected)
