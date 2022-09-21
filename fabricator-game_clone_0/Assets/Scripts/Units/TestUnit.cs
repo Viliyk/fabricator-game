@@ -110,11 +110,21 @@ namespace Fabricator.Units
 
         private void CheckForTargets()
         {
-            Vector3 y = new Vector3(0, 1, 0);
-            if (aggroTarget != null)
-                DrawArrow.ForDebug(transform.position + y, aggroTarget.position - transform.position, Color.red);
+            //Vector3 y = new Vector3(0, 1, 0);
+            //if (aggroTarget != null)
+            //    DrawArrow.ForDebug(transform.position + y, aggroTarget.position - transform.position, Color.red);
+            float radius = aggroRange;
+            float distanceToTarget;
 
-            rangeColliders = Physics.OverlapSphere(transform.position, aggroRange);
+            if (aggroTarget != null)
+            {
+                distanceToTarget = Vector3.Distance(transform.position, aggroTarget.position);
+
+                if (distanceToTarget < aggroRange)
+                    radius = distanceToTarget;
+            }
+
+            rangeColliders = Physics.OverlapSphere(transform.position, radius);
 
             if (rangeColliders.Length == 2)
             {
@@ -127,16 +137,16 @@ namespace Fabricator.Units
             {
                 Transform unitInRange = rangeColliders[i].transform;
 
+                // Ignore this unit
                 if (unitInRange.parent == transform)
                     continue;
-
+                // Pick closest unit
                 if (unitInRange.gameObject.layer == unitLayer)
                 {
                     if (closest == null)
                         closest = unitInRange;
                     else if (Vector3.Distance(transform.position, unitInRange.position) < Vector3.Distance(transform.position, closest.position))
                         closest = unitInRange;
-
                 }
             }
             aggroTarget = closest;
