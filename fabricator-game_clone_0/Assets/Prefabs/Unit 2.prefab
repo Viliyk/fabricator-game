@@ -273,6 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myAgent: {fileID: 3079106157372964607}
   unitBase: {fileID: 82905225993908430}
+  projectile: {fileID: 8814032352920702993, guid: 4e268a19dc1299f409b1b593973ab3ec, type: 3}
   ground:
     serializedVersion: 2
     m_Bits: 8
@@ -280,11 +281,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   destination: {x: 0, y: 0, z: 0}
+  forceMove: 0
   rangeColliders: []
   aggroTarget: {fileID: 0}
-  forceMove: 0
-  HP: 500
   healthBar: {fileID: 3973036811167237293}
+  HP: 5
 --- !u!195 &3079106157372964607
 NavMeshAgent:
   m_ObjectHideFlags: 0

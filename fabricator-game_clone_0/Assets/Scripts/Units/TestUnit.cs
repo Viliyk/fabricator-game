@@ -11,9 +11,11 @@ namespace Fabricator.Units
     {
         [SerializeField] private NavMeshAgent myAgent = null;
         [SerializeField] private MeshRenderer unitBase = null;
+        [SerializeField] private GameObject projectile = null;
         private Camera mainCamera;
         public LayerMask ground;
         public LayerMask unitLayer;
+        private GameObject spawnedProjectile;
 
         public Vector3 destination;
         public bool forceMove = false;
@@ -68,6 +70,10 @@ namespace Fabricator.Units
                     {
                         aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP -= AD;
                         attackCD = 1 / AS;
+
+                        spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
+                        spawnedProjectile.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                        spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget);
                     }
                 }
             }
