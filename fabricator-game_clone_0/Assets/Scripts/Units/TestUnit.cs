@@ -68,12 +68,12 @@ namespace Fabricator.Units
                     // Attack
                     if (attackCD <= 0)
                     {
-                        aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP -= AD;
-                        attackCD = 1 / AS;
-
                         spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
                         spawnedProjectile.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                         spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget);
+
+                        //aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP -= AD;
+                        attackCD = 1 / AS;
                     }
                 }
             }
