@@ -22,9 +22,11 @@ public class ProjectileBehaviour : MonoBehaviour
             targetPosition = target.transform.position;
             destination = targetPosition - transform.position;
         }
+        else
+            Destroy(gameObject, 1);
 
         distance = Vector3.Distance(transform.position, targetPosition);
-        if (distance <= 0.1f)
+        if (distance <= 0.5f)
         {
             targetUnit.HP -= 1;
             Destroy(gameObject);
