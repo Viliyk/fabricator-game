@@ -30,7 +30,8 @@ public class TraderManager : MonoBehaviour
     public int turnNumber;
     public int lives;
     public int credits;
-    private int[] yourCards;
+    //private int[] yourCards;
+    private List<int> yourCards;
     private int[] handCards;
 
     private List<int> availableRelics = new List<int>();

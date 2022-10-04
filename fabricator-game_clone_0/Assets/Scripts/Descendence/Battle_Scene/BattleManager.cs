@@ -7,6 +7,9 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    [SerializeField] private GameObject unitTemplate = null;
+
+
     [SerializeField] private GameObject cardTemplate = null;
     [SerializeField] private GameObject itemTemplate = null;
     [SerializeField] private GameObject consumableTemplate = null;
@@ -37,7 +40,8 @@ public class BattleManager : MonoBehaviour
     public static float battleSpeed;
     public static float chargeRate;
 
-    private int[] yourCards;
+    //private int[] yourCards;
+    private List<int> yourCards;
     private Draggable draggable;
     private ThisCard createdCard;
     private GameObject spawnedCard;
@@ -601,11 +605,55 @@ public class BattleManager : MonoBehaviour
         //SpawnPlayerCard(33, true);  // add a generator to hand
         //SpawnPlayerCard(35, true);  // add a turret to hand
 
-        int i = 0;
-        foreach (int unit in yourCards)
+        //int i = 0;
+        //foreach (int unit in yourCards)
+        //{
+        //    if (hand.transform.childCount < 10)
+        //    {
+        //        if (unit != 0)
+        //        {
+        //            createdCard = cardTemplate.GetComponent<ThisCard>();    // spawn plain copies of player's cards
+        //            createdCard.thisId = unit;
+        //            spawnedCard = Instantiate(cardTemplate, new Vector3(0, 0, 0), Quaternion.identity);
+        //            spawnedCard.transform.SetParent(hand.transform, false);
+        //            spawnedCard.GetComponent<Draggable>().ChangeEnum(Draggable.Slot.BATTLEHAND);   // change enum to BATTLEHAND
+
+        //            createdCard = spawnedCard.GetComponent<ThisCard>();     // modify their stats to match what they were
+        //            if (GlobalControl.Instance.newYourCards[i] != null)
+        //            {
+        //                createdCard.cost = GlobalControl.Instance.newYourCards[i].cost;
+        //                createdCard.attack = GlobalControl.Instance.newYourCards[i].attack;
+        //                createdCard.health = GlobalControl.Instance.newYourCards[i].health;
+        //                createdCard.golden = GlobalControl.Instance.newYourCards[i].golden;
+        //                createdCard.admission = GlobalControl.Instance.newYourCards[i].admission;
+        //                createdCard.shield = GlobalControl.Instance.newYourCards[i].shield;
+        //                createdCard.cleave = GlobalControl.Instance.newYourCards[i].cleave;
+        //                createdCard.guard = GlobalControl.Instance.newYourCards[i].guard;
+        //                createdCard.vengeance = GlobalControl.Instance.newYourCards[i].vengeance;
+        //                createdCard.command = GlobalControl.Instance.newYourCards[i].command;
+        //            }
+        //            createdCard.ActivateStasisSlider();
+
+
+        //            createdCard.ActivateTargetBorder();
+
+
+        //            yourHand.Add(createdCard);
+        //        }
+        //        i++;
+        //    }
+        //}
+
+        for (int i = 0; i < yourCards.Count; i++)
         {
+            if (yourCards.Count != GlobalControl.Instance.newYourCards.Count)
+                break;
+
+
             if (hand.transform.childCount < 10)
             {
+                int unit = yourCards[i];
+
                 if (unit != 0)
                 {
                     createdCard = cardTemplate.GetComponent<ThisCard>();    // spawn plain copies of player's cards
@@ -636,9 +684,9 @@ public class BattleManager : MonoBehaviour
 
                     yourHand.Add(createdCard);
                 }
-                i++;
             }
         }
+
         // restore player items
         foreach (int item in GlobalControl.Instance.yourItems)
             SpawnPlayerItem(item);
@@ -910,6 +958,11 @@ public class BattleManager : MonoBehaviour
 
     public ThisCard SpawnToBackline(GameObject playedCard, bool isEnemy)
     {
+        // ******************* TEST *****************
+        GameObject spawnedUnit;
+        spawnedUnit = Instantiate(unitTemplate, new Vector3(0, 0, 0), Quaternion.identity);
+        // ******************************************
+
         if (!isEnemy && backlineMinions.Count >= backlineSlots)
             return null;
         if (isEnemy && enemyBacklineMinions.Count >= enemyBacklineSlots)

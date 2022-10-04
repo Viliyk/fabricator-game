@@ -31,7 +31,8 @@ public class GlobalControl : MonoBehaviour
     public int pathNumber;
     public int currentNode;
     public bool isLocked;
-    public int[] yourCards;
+    //public int[] yourCards;
+    public List<int> yourCards;
     public List<Container> newYourCards;
     public List<Container> newHandCards;
     public Container[] containers;
@@ -63,7 +64,7 @@ public class GlobalControl : MonoBehaviour
         gold = 6;
         upgradeCost = 6;
         nextUpgrade = 7;
-        yourCards = new int[7];
+        //yourCards = new int[7];
         newYourCards = new List<Container>();
         newHandCards = new List<Container>();
         handCards = new int[10];
@@ -85,9 +86,12 @@ public class GlobalControl : MonoBehaviour
 
 
 
-        yourCards[0] = 36;
-        yourCards[1] = 36;
-        yourCards[2] = 36;
+        //yourCards[0] = 36;
+        //yourCards[1] = 36;
+        //yourCards[2] = 36;
+        yourCards.Add(36);
+        yourCards.Add(36);
+        yourCards.Add(36);
     }
 
     public void EmptyContainers()

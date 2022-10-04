@@ -1395,6 +1395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5e9bfe727bc7d942862a9546575767a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unitTemplate: {fileID: 8169053957942460057, guid: a41f7a798ee43a04d856e02d4a47c115, type: 3}
   cardTemplate: {fileID: 5703813271813300401, guid: afc84e9d0fdb96f47b676f4d2dc03ab2, type: 3}
   itemTemplate: {fileID: 256227392941980292, guid: 95dccebd5d2d9714ca5f570f25088b46, type: 3}
   consumableTemplate: {fileID: 8563978512806393236, guid: 1cd47a805d5c8f54998575d396a1b46b, type: 3}

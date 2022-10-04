@@ -78,7 +78,8 @@ public class ShopManager : MonoBehaviour
     private int startingGold;
     private int upgradeCost;
     private int nextUpgrade;
-    private int[] yourCards;
+    //private int[] yourCards;
+    private List<int> yourCards;
     private int[] handCards;
     private int[] lockedCards;
     private bool isLocked;
@@ -970,18 +971,20 @@ public class ShopManager : MonoBehaviour
         GlobalControl.Instance.lives = lives;
         GlobalControl.Instance.credits = credits;
 
-        for (int i = 0; i < 7; i++)
-        {
-            GlobalControl.Instance.yourCards[i] = 0;    // clear board card array
-        }
-        int positionOnBoard = 0;
+        //for (int i = 0; i < 7; i++)
+        //{
+        //    GlobalControl.Instance.yourCards[i] = 0;
+        //}
+        GlobalControl.Instance.yourCards.Clear();       // clear global board card list
+        //int positionOnBoard = 0;
         foreach (Transform child in board.transform)    // save board cards
         {
             ThisCard card = child.GetComponent<ThisCard>();
             if (card != null)
             {
-                GlobalControl.Instance.yourCards[positionOnBoard] = card.thisId;
-                positionOnBoard++;
+                GlobalControl.Instance.yourCards.Add(card.thisId);
+                //GlobalControl.Instance.yourCards[positionOnBoard] = card.thisId;
+                //positionOnBoard++;
             }
         }
 
