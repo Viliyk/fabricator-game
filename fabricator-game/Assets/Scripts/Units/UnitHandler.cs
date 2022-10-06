@@ -29,6 +29,14 @@ namespace Fabricator.Units
             {
                 Instantiate(unit.unitPrefab, transform.position, Quaternion.identity, playerUnits);
             }
+
+            if (Input.GetKey(KeyCode.O))
+            {
+                GameObject g;
+
+                g = Instantiate(unit.unitPrefab, new Vector3(0, 0, 10), Quaternion.identity, playerUnits);
+                g.GetComponent<TestUnit>().isEnemy = true;
+            }
         }
     }
 }

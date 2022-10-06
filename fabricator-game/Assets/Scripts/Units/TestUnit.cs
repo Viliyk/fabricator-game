@@ -29,6 +29,8 @@ namespace Fabricator.Units
 
         public Slider healthBar;
 
+        public bool isEnemy;
+
         private float aggroRange = 10;
         private float range = 5;
         public float HP = 500;
@@ -42,6 +44,9 @@ namespace Fabricator.Units
             mainCamera = Camera.main;
             unitLayer = LayerMask.NameToLayer("Units");
             healthBar.maxValue = HP;
+
+            if (isEnemy)
+                unitBase.material.color = Color.red;
         }
 
         void Update()
@@ -142,9 +147,16 @@ namespace Fabricator.Units
             for (int i = 0; i < rangeColliders.Length; i++)
             {
                 Transform unitInRange = rangeColliders[i].transform;
+                TestUnit unit = unitInRange.GetComponentInParent<TestUnit>();
+
+                if (unit == null)
+                    continue;
 
                 // Ignore this unit
-                if (unitInRange.parent == transform)
+
+                //if (unitInRange.parent == transform)
+                //    continue;
+                if (isEnemy == unit.isEnemy)
                     continue;
                 // Pick closest unit
                 if (unitInRange.gameObject.layer == unitLayer)

@@ -97,31 +97,6 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Awake()
     {
-        //if (!copy)
-        //{
-        //    thisCard[0] = CardDB.cardList[thisId];
-
-        //    statbuffs = GetComponent<StatBuffs>();
-
-        //    id = thisCard[0].id;
-        //    cardName = thisCard[0].cardName;
-        //    cardDescription = thisCard[0].cardDescription;
-        //    tier = thisCard[0].tier;
-        //    cost = thisCard[0].cost;
-        //    energyCost = thisCard[0].energyCost;
-        //    station = thisCard[0].station;
-        //    attack = thisCard[0].attack;
-        //    health = thisCard[0].health;
-        //    cooldown = thisCard[0].cooldown;
-        //    type = thisCard[0].type;
-        //    thisSprite = thisCard[0].thisImage;
-
-        //    abilityList = thisCard[0].abilityList;
-        //}
-    }
-
-    void Start()
-    {
         if (!copy)
         {
             thisCard[0] = CardDB.cardList[thisId];
@@ -143,8 +118,34 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             abilityList = thisCard[0].abilityList;
         }
+    }
+
+    void Start()
+    {
+        // *** chimera egg stopped working when moving these to awake, probably because of RestorePlayerBoard. enemy barriers still worked ***
 
 
+        //if (!copy)
+        //{
+        //    thisCard[0] = CardDB.cardList[thisId];
+
+        //    statbuffs = GetComponent<StatBuffs>();
+
+        //    id = thisCard[0].id;
+        //    cardName = thisCard[0].cardName;
+        //    cardDescription = thisCard[0].cardDescription;
+        //    tier = thisCard[0].tier;
+        //    cost = thisCard[0].cost;
+        //    energyCost = thisCard[0].energyCost;
+        //    station = thisCard[0].station;
+        //    attack = thisCard[0].attack;
+        //    health = thisCard[0].health;
+        //    cooldown = thisCard[0].cooldown;
+        //    type = thisCard[0].type;
+        //    thisSprite = thisCard[0].thisImage;
+
+        //    abilityList = thisCard[0].abilityList;
+        //}
 
 
 

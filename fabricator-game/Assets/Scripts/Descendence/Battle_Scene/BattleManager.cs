@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
+using Fabricator.Units;
 
 public class BattleManager : MonoBehaviour
 {
@@ -959,8 +960,18 @@ public class BattleManager : MonoBehaviour
     public ThisCard SpawnToBackline(GameObject playedCard, bool isEnemy)
     {
         // ******************* TEST *****************
+        Vector3 spawnPoint;
         GameObject spawnedUnit;
-        spawnedUnit = Instantiate(unitTemplate, new Vector3(0, 0, 0), Quaternion.identity);
+        
+
+        if (!isEnemy)
+            spawnPoint = new Vector3(0, 0, 0);
+        else
+            spawnPoint = new Vector3(0, 0, 10);
+
+        spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
+        if (isEnemy)
+            spawnedUnit.GetComponent<TestUnit>().isEnemy = true;
         // ******************************************
 
         if (!isEnemy && backlineMinions.Count >= backlineSlots)
