@@ -11,6 +11,7 @@ public class ProjectileBehaviour : MonoBehaviour
     private TestUnit targetUnit;
     public Vector3 targetPosition;
     public Vector3 destination;
+    private float damage;
 
     void Update()
     {
@@ -28,7 +29,7 @@ public class ProjectileBehaviour : MonoBehaviour
         distance = Vector3.Distance(transform.position, targetPosition);
         if (distance <= 0.5f)
         {
-            targetUnit.HP -= 1;
+            targetUnit.HP -= damage;
             Destroy(gameObject);
         }
 
@@ -36,8 +37,9 @@ public class ProjectileBehaviour : MonoBehaviour
             transform.Translate((destination.normalized) * Time.deltaTime * 30);
     }
 
-    public void StartMoving(Transform unit)
+    public void StartMoving(Transform unit, float amount)
     {
+        damage = amount;
         target = unit;
         targetUnit = unit.GetComponentInParent<TestUnit>();
         move = true;

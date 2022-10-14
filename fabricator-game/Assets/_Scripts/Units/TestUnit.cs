@@ -73,18 +73,18 @@ namespace Fabricator.Units
                     // Attack
                     if (attackCD <= 0)
                     {
+                        // Shoot projectile
                         spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
                         spawnedProjectile.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                        spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget);
-
-                        //aggroTarget.parent.gameObject.GetComponent<TestUnit>().HP -= AD;
+                        spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget, AD);
+                        // Reset attack cooldown
                         attackCD = 1 / AS;
                     }
                 }
             }
 
-
-            Die();
+            if (HP <= 0)
+                Die();
 
             // Move command
             if (!Mouse.current.rightButton.wasPressedThisFrame)
@@ -109,12 +109,18 @@ namespace Fabricator.Units
 
         public void Select()
         {
+            if (isEnemy)
+                return;
+
             selected = true;
             unitBase.material.color = Color.green;
         }
 
         public void Deselect()
         {
+            if (isEnemy)
+                return;
+
             selected = false;
             unitBase.material.color = Color.white;
         }
@@ -148,14 +154,10 @@ namespace Fabricator.Units
             {
                 Transform unitInRange = rangeColliders[i].transform;
                 TestUnit unit = unitInRange.GetComponentInParent<TestUnit>();
-
+                // Ignore null units
                 if (unit == null)
                     continue;
-
-                // Ignore this unit
-
-                //if (unitInRange.parent == transform)
-                //    continue;
+                // Ignore allied units
                 if (isEnemy == unit.isEnemy)
                     continue;
                 // Pick closest unit
@@ -172,11 +174,8 @@ namespace Fabricator.Units
 
         private void Die()
         {
-            if (HP <= 0)
-            {
-                UnitSelection.Instance.selectedObjects.Remove(GetComponent<ISelectable>());
-                Destroy(gameObject);
-            }
+            UnitSelection.Instance.selectedObjects.Remove(GetComponent<ISelectable>());
+            Destroy(gameObject);
         }
     }
 }

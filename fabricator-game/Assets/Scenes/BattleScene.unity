@@ -1399,14 +1399,10 @@ MonoBehaviour:
   cardTemplate: {fileID: 5703813271813300401, guid: afc84e9d0fdb96f47b676f4d2dc03ab2, type: 3}
   itemTemplate: {fileID: 256227392941980292, guid: 95dccebd5d2d9714ca5f570f25088b46, type: 3}
   consumableTemplate: {fileID: 8563978512806393236, guid: 1cd47a805d5c8f54998575d396a1b46b, type: 3}
-  frontline: {fileID: 0}
   backline: {fileID: 2315898196958815348}
-  enemyFrontline: {fileID: 0}
-  enemyBackline: {fileID: 0}
   hand: {fileID: 2315898196445081830}
   enemyHand: {fileID: 2315898196525286579}
   useZone: {fileID: 2315898196837480360}
-  frontlineHighlight: {fileID: 0}
   backlineHighlight: {fileID: 2315898197049999827}
   livesText: {fileID: 2315898195525412608}
   turnText: {fileID: 2315898195990807621}
@@ -4604,7 +4600,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2315898197639758568}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4765,9 +4761,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 2315898197049999836}
   - {fileID: 280505363}
   - {fileID: 875051114}
-  - {fileID: 2315898197049999836}
   - {fileID: 2315898196958815351}
   - {fileID: 2315898196445081825}
   - {fileID: 2315898195990807610}
