@@ -29,7 +29,9 @@ public class ProjectileBehaviour : MonoBehaviour
         distance = Vector3.Distance(transform.position, targetPosition);
         if (distance <= 0.5f)
         {
-            targetUnit.HP -= damage;
+            if (targetUnit != null)
+                targetUnit.HP -= damage;
+
             Destroy(gameObject);
         }
 

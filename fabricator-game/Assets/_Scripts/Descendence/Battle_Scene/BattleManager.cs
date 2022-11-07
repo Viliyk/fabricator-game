@@ -320,8 +320,8 @@ public class BattleManager : MonoBehaviour
     {
         for (int i = 0; i < yourCards.Count; i++)
         {
-            if (yourCards.Count != GlobalControl.Instance.newYourCards.Count)
-                break;
+            //if (yourCards.Count != GlobalControl.Instance.newYourCards.Count)
+            //    break;
 
             if (hand.transform.childCount < 10)
             {
@@ -336,19 +336,19 @@ public class BattleManager : MonoBehaviour
                     spawnedCard.GetComponent<Draggable>().ChangeEnum(Draggable.Slot.BATTLEHAND);   // change enum to BATTLEHAND
 
                     createdCard = spawnedCard.GetComponent<ThisCard>();     // modify their stats to match what they were
-                    if (GlobalControl.Instance.newYourCards[i] != null)
-                    {
-                        createdCard.cost = GlobalControl.Instance.newYourCards[i].cost;
-                        createdCard.attack = GlobalControl.Instance.newYourCards[i].attack;
-                        createdCard.health = GlobalControl.Instance.newYourCards[i].health;
-                        createdCard.golden = GlobalControl.Instance.newYourCards[i].golden;
-                        createdCard.admission = GlobalControl.Instance.newYourCards[i].admission;
-                        createdCard.shield = GlobalControl.Instance.newYourCards[i].shield;
-                        createdCard.cleave = GlobalControl.Instance.newYourCards[i].cleave;
-                        createdCard.guard = GlobalControl.Instance.newYourCards[i].guard;
-                        createdCard.vengeance = GlobalControl.Instance.newYourCards[i].vengeance;
-                        createdCard.command = GlobalControl.Instance.newYourCards[i].command;
-                    }
+                    //if (GlobalControl.Instance.newYourCards[i] != null)
+                    //{
+                    //    createdCard.cost = GlobalControl.Instance.newYourCards[i].cost;
+                    //    createdCard.attack = GlobalControl.Instance.newYourCards[i].attack;
+                    //    createdCard.health = GlobalControl.Instance.newYourCards[i].health;
+                    //    createdCard.golden = GlobalControl.Instance.newYourCards[i].golden;
+                    //    createdCard.admission = GlobalControl.Instance.newYourCards[i].admission;
+                    //    createdCard.shield = GlobalControl.Instance.newYourCards[i].shield;
+                    //    createdCard.cleave = GlobalControl.Instance.newYourCards[i].cleave;
+                    //    createdCard.guard = GlobalControl.Instance.newYourCards[i].guard;
+                    //    createdCard.vengeance = GlobalControl.Instance.newYourCards[i].vengeance;
+                    //    createdCard.command = GlobalControl.Instance.newYourCards[i].command;
+                    //}
 
                     createdCard.ActivateStasisSlider();
                     createdCard.ActivateTargetBorder();

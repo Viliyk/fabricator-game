@@ -86,16 +86,35 @@ namespace Fabricator.Units
             if (HP <= 0)
                 Die();
 
-            // Move command
+            // Unit commands
             if (!Mouse.current.rightButton.wasPressedThisFrame)
                 return;
             if (!selected)
                 return;
+
+            // Check what was clicked
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
-                return;
-            forceMove = true;
-            Move(hit.point);
+            //if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
+            //    return;
+            //forceMove = true;
+            //Move(hit.point);
+            if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {
+                LayerMask layerHit = hit.transform.gameObject.layer;
+
+                switch (layerHit.value)
+                {
+                    default:
+                        break;
+                    case 3:     // Ground layer
+                        forceMove = true;
+                        Move(hit.point);
+                        break;
+                    case 6:     // Unit layer
+                        forceMove = false;
+                        break;
+                }
+            }
         }
 
         private void Move(Vector3 position)
