@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Fabricator.Units
 {
@@ -12,6 +13,7 @@ namespace Fabricator.Units
         [SerializeField] private NavMeshAgent myAgent = null;
         [SerializeField] private MeshRenderer unitBase = null;
         [SerializeField] private GameObject projectile = null;
+        [SerializeField] private TMP_Text powerText = null;
         private Camera mainCamera;
         public LayerMask ground;
         public LayerMask unitLayer;
@@ -34,8 +36,8 @@ namespace Fabricator.Units
         private float aggroRange = 10;
         private float range = 5;
         public float HP = 500;
-        private float AS = 1;
         private float AD = 1;
+        private float AS = 1;
 
         private float attackCD = 0;
 
@@ -51,6 +53,7 @@ namespace Fabricator.Units
 
         void Update()
         {
+            powerText.text = "" + AD;
             healthBar.value = HP;
 
             if (attackCD > 0)

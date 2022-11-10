@@ -526,9 +526,9 @@ public class BattleManager : MonoBehaviour
 
 
         if (!isEnemy)
-            spawnPoint = new Vector3(0, 0, 0);
+            spawnPoint = new Vector3(0, 0, -5);
         else
-            spawnPoint = new Vector3(0, 0, 10);
+            spawnPoint = new Vector3(0, 0, 12);
 
         spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
         if (isEnemy)

@@ -34,7 +34,7 @@ namespace Fabricator.Units
             {
                 GameObject g;
 
-                g = Instantiate(unit.unitPrefab, new Vector3(0, 0, 10), Quaternion.identity, playerUnits);
+                g = Instantiate(unit.unitPrefab, new Vector3(0, 0, 12), Quaternion.identity, playerUnits);
                 g.GetComponent<TestUnit>().isEnemy = true;
             }
         }
