@@ -36,6 +36,7 @@ namespace Fabricator.Units
 
                 g = Instantiate(unit.unitPrefab, new Vector3(0, 0, 12), Quaternion.identity, playerUnits);
                 g.GetComponent<TestUnit>().isEnemy = true;
+                g.layer = 7;
             }
         }
     }

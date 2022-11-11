@@ -532,7 +532,10 @@ public class BattleManager : MonoBehaviour
 
         spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
         if (isEnemy)
+        {
             spawnedUnit.GetComponent<TestUnit>().isEnemy = true;
+            spawnedUnit.layer = 7;
+        }
         // ******************************************
 
 

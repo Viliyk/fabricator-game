@@ -16,11 +16,12 @@ namespace Fabricator.Units
         [SerializeField] private TMP_Text powerText = null;
         private Camera mainCamera;
         public LayerMask ground;
-        public LayerMask unitLayer;
+        public LayerMask enemyLayer;
         private GameObject spawnedProjectile;
 
         public Vector3 destination;
         public bool forceMove = false;
+        public bool forceAttack = false;
 
         private bool selected = false;
 
@@ -44,26 +45,40 @@ namespace Fabricator.Units
         void Start()
         {
             mainCamera = Camera.main;
-            unitLayer = LayerMask.NameToLayer("Units");
             healthBar.maxValue = HP;
 
             if (isEnemy)
+            {
                 unitBase.material.color = Color.red;
+                enemyLayer = LayerMask.NameToLayer("Allies");
+            }
+            else
+                enemyLayer = LayerMask.NameToLayer("Enemies");
         }
 
         void Update()
         {
+            // Update UI elements
             powerText.text = "" + AD;
             healthBar.value = HP;
 
+            // Tick down attack cooldown
             if (attackCD > 0)
                 attackCD -= Time.deltaTime;
 
-            CheckForTargets();
+            // Remove attack command if move command is issued or target is null
+            if (forceMove || aggroTarget == null)
+                forceAttack = false;
 
+            // Remove move command when arriving at destination
             if (Vector3.Distance(transform.position, destination) <= 0.1f)
                 forceMove = false;
 
+            // Look for targets when commands are not issued
+            if (!forceAttack && !forceMove)
+                CheckForTargets();
+
+            // Chase and attack target
             if (aggroTarget != null && !forceMove)
             {
                 // Move to range of aggro target
@@ -86,6 +101,7 @@ namespace Fabricator.Units
                 }
             }
 
+            // Destroy this unit when HP reaches 0
             if (HP <= 0)
                 Die();
 
@@ -97,10 +113,6 @@ namespace Fabricator.Units
 
             // Check what was clicked
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            //if (!Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, ground))
-            //    return;
-            //forceMove = true;
-            //Move(hit.point);
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
                 LayerMask layerHit = hit.transform.gameObject.layer;
@@ -110,11 +122,14 @@ namespace Fabricator.Units
                     default:
                         break;
                     case 3:     // Ground layer
+                    case 6:     // Ally layer
                         forceMove = true;
                         Move(hit.point);
                         break;
-                    case 6:     // Unit layer
+                    case 7:     // Enemy layer
                         forceMove = false;
+                        forceAttack = true;
+                        aggroTarget = hit.transform;
                         break;
                 }
             }
@@ -183,7 +198,7 @@ namespace Fabricator.Units
                 if (isEnemy == unit.isEnemy)
                     continue;
                 // Pick closest unit
-                if (unitInRange.gameObject.layer == unitLayer)
+                if (unitInRange.gameObject.layer == enemyLayer)
                 {
                     if (closest == null)
                         closest = unitInRange;

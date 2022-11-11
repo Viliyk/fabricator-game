@@ -15,9 +15,9 @@ public class CameraMovement : MonoBehaviour
     Vector2 p1;
     Vector2 p2;
 
-    void Update()
+    void LateUpdate()
     {
-        // old input system
+        // Old input system
         float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
         float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
         float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
@@ -51,26 +51,49 @@ public class CameraMovement : MonoBehaviour
 
         transform.position += move;
 
-        GetCameraRotation();
+        MiddleClickScroll();
     }
 
-    void GetCameraRotation()
+    void MiddleClickScroll()
     {
-        if (Mouse.current.middleButton.wasPressedThisFrame)    // store mouse position when middle click is pressed
+        // Store mouse position when middle click is pressed
+        if (Mouse.current.middleButton.wasPressedThisFrame)
         {
             p1 = Mouse.current.position.ReadValue();
         }
-
-        if (Mouse.current.middleButton.isPressed)        // store mouse position when middle click is being held
+        // Store mouse position when middle click is being held
+        if (Mouse.current.middleButton.isPressed)
         {
             p2 = Mouse.current.position.ReadValue();
 
             float dx = (p2 - p1).x * rotationSpeed;
             float dy = (p2 - p1).y * rotationSpeed;
 
-            transform.rotation *= Quaternion.Euler(new Vector3(0, dx, 0));
+            Vector3 move = new Vector3(-dx, 0, -dy);
+
+            transform.position += move;
 
             p1 = p2;
         }
     }
+
+    //void GetCameraRotation()
+    //{
+    //    if (Mouse.current.middleButton.wasPressedThisFrame)    // store mouse position when middle click is pressed
+    //    {
+    //        p1 = Mouse.current.position.ReadValue();
+    //    }
+
+    //    if (Mouse.current.middleButton.isPressed)        // store mouse position when middle click is being held
+    //    {
+    //        p2 = Mouse.current.position.ReadValue();
+
+    //        float dx = (p2 - p1).x * rotationSpeed;
+    //        float dy = (p2 - p1).y * rotationSpeed;
+
+    //        transform.rotation *= Quaternion.Euler(new Vector3(0, dx, 0));
+
+    //        p1 = p2;
+    //    }
+    //}
 }
