@@ -14,6 +14,7 @@ namespace Fabricator.Units
         [SerializeField] private MeshRenderer unitBase = null;
         [SerializeField] private GameObject projectile = null;
         [SerializeField] private TMP_Text powerText = null;
+        [SerializeField] private SimpleFlash flashEffect = null;
         private Camera mainCamera;
         public LayerMask ground;
         public LayerMask enemyLayer;
@@ -41,6 +42,8 @@ namespace Fabricator.Units
         private float AS = 1;
 
         private float attackCD = 0;
+        private float windup = 0.5f;
+        private float recovery = 0.5f;
 
         void Start()
         {
@@ -93,7 +96,7 @@ namespace Fabricator.Units
                     {
                         // Shoot projectile
                         spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
-                        spawnedProjectile.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                        spawnedProjectile.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
                         spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget, AD);
                         // Reset attack cooldown
                         attackCD = 1 / AS;
@@ -101,16 +104,19 @@ namespace Fabricator.Units
                 }
             }
 
+            // Input check
+            if (Mouse.current.rightButton.wasPressedThisFrame && selected)
+                UnitCommands(false);    // "Right-click" for normal command
+            if (Keyboard.current.aKey.wasPressedThisFrame && selected)
+                UnitCommands(true);     // "A" for attack-move
+
             // Destroy this unit when HP reaches 0
             if (HP <= 0)
                 Die();
+        }
 
-            // Unit commands
-            if (!Mouse.current.rightButton.wasPressedThisFrame)
-                return;
-            if (!selected)
-                return;
-
+        private void UnitCommands(bool IsAttackMove)
+        {
             // Check what was clicked
             Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -121,12 +127,12 @@ namespace Fabricator.Units
                 {
                     default:
                         break;
-                    case 3:     // Ground layer
+                    case 3:     // Ground layer: Move to this position
                     case 6:     // Ally layer
                         forceMove = true;
                         Move(hit.point);
                         break;
-                    case 7:     // Enemy layer
+                    case 7:     // Enemy layer: Choose this enemy as a target
                         forceMove = false;
                         forceAttack = true;
                         aggroTarget = hit.transform;
@@ -144,22 +150,9 @@ namespace Fabricator.Units
             myAgent.SetDestination(destination);
         }
 
-        public void Select()
+        private void AttackMove()
         {
-            if (isEnemy)
-                return;
 
-            selected = true;
-            unitBase.material.color = Color.green;
-        }
-
-        public void Deselect()
-        {
-            if (isEnemy)
-                return;
-
-            selected = false;
-            unitBase.material.color = Color.white;
         }
 
         private void CheckForTargets()
@@ -207,6 +200,32 @@ namespace Fabricator.Units
                 }
             }
             aggroTarget = closest;
+        }
+
+        public void Select()
+        {
+            if (isEnemy)
+                return;
+
+            selected = true;
+            unitBase.material.color = Color.green;
+        }
+
+        public void Deselect()
+        {
+            if (isEnemy)
+                return;
+
+            selected = false;
+            unitBase.material.color = Color.white;
+        }
+
+        public void TakeDamage(float amount)
+        {
+            HP -= amount;
+
+            if (flashEffect != null && HP > 0)
+                flashEffect.Flash();
         }
 
         private void Die()

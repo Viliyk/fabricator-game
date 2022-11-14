@@ -13,7 +13,7 @@ public class ProjectileBehaviour : MonoBehaviour
     public Vector3 destination;
     private float damage;
 
-    void Update()
+    void FixedUpdate()
     {
         if (!move)
             return;
@@ -30,13 +30,13 @@ public class ProjectileBehaviour : MonoBehaviour
         if (distance <= 0.5f)
         {
             if (targetUnit != null)
-                targetUnit.HP -= damage;
+                targetUnit.TakeDamage(damage);
 
             Destroy(gameObject);
         }
 
         if (move)
-            transform.Translate((destination.normalized) * Time.deltaTime * 30);
+            transform.Translate((destination.normalized) * Time.deltaTime * 25);
     }
 
     public void StartMoving(Transform unit, float amount)

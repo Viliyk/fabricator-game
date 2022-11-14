@@ -18,8 +18,12 @@ public class CameraMovement : MonoBehaviour
     void LateUpdate()
     {
         // Old input system
-        float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
-        float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
+        //float hsp = transform.position.y * speed * Input.GetAxis("Horizontal");
+        //float vsp = transform.position.y * speed * Input.GetAxis("Vertical");
+        float hsp = 0;
+        float vsp = 0;
+
+
         float scrollSp = Mathf.Log(transform.position.y) * -zoomSpeed * Input.GetAxis("Mouse ScrollWheel");
 
         if (transform.position.y >= maxHeight && scrollSp > 0)
@@ -51,10 +55,10 @@ public class CameraMovement : MonoBehaviour
 
         transform.position += move;
 
-        MiddleClickScroll();
+        MiddleClickMove();
     }
 
-    void MiddleClickScroll()
+    void MiddleClickMove()
     {
         // Store mouse position when middle click is pressed
         if (Mouse.current.middleButton.wasPressedThisFrame)
