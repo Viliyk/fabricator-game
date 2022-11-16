@@ -23,6 +23,7 @@ namespace Fabricator.Units
         public Vector3 destination;
         public bool forceMove = false;
         public bool forceAttack = false;
+        private bool isRecovering = false;
 
         private bool selected = false;
 
@@ -36,13 +37,13 @@ namespace Fabricator.Units
         public bool isEnemy;
 
         private float aggroRange = 10;
-        private float range = 5;
+        private float range = 6;
         public float HP = 500;
         private float AD = 1;
         private float AS = 1;
 
         private float attackCD = 0;
-        private float windup = 0.5f;
+        private float windup = 0.2f;
         private float recovery = 0.5f;
 
         void Start()
@@ -57,6 +58,12 @@ namespace Fabricator.Units
             }
             else
                 enemyLayer = LayerMask.NameToLayer("Enemies");
+
+            if (isEnemy)
+            {
+                myAgent.speed = 3;
+                range = 2;
+            }
         }
 
         void Update()
@@ -90,16 +97,13 @@ namespace Fabricator.Units
                 else
                 {
                     // Stop when in range
-                    Move(transform.position);
+                    //Move(transform.position);
+                    myAgent.SetDestination(transform.position);
                     // Attack
                     if (attackCD <= 0)
                     {
-                        // Shoot projectile
-                        spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
-                        spawnedProjectile.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
-                        spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget, AD);
-                        // Reset attack cooldown
-                        attackCD = 1 / AS;
+                        StopCoroutine(Attack());
+                        StartCoroutine(Attack());
                     }
                 }
             }
@@ -109,6 +113,8 @@ namespace Fabricator.Units
                 UnitCommands(false);    // "Right-click" for normal command
             if (Keyboard.current.aKey.wasPressedThisFrame && selected)
                 UnitCommands(true);     // "A" for attack-move
+            if (Keyboard.current.tabKey.wasPressedThisFrame && selected)
+                UnitCommands(true);     // "Tab" for attack-move
 
             // Destroy this unit when HP reaches 0
             if (HP <= 0)
@@ -129,7 +135,10 @@ namespace Fabricator.Units
                         break;
                     case 3:     // Ground layer: Move to this position
                     case 6:     // Ally layer
-                        forceMove = true;
+                        if (!IsAttackMove)
+                            forceMove = true;
+                        else
+                            forceMove = false;
                         Move(hit.point);
                         break;
                     case 7:     // Enemy layer: Choose this enemy as a target
@@ -146,13 +155,33 @@ namespace Fabricator.Units
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 return;
 
-            destination = hit.position;
-            myAgent.SetDestination(destination);
+            if (!isRecovering || forceMove)
+            {
+                destination = hit.position;
+                myAgent.SetDestination(destination);
+            }
         }
 
-        private void AttackMove()
+        IEnumerator Attack()
         {
+            isRecovering = true;
+            // Reset attack cooldown
+            attackCD = 1 / AS;
+            yield return new WaitForSeconds(windup);
+            // Shoot projectile
+            spawnedProjectile = Instantiate(projectile, transform.position, Quaternion.identity);
+            spawnedProjectile.transform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
+            spawnedProjectile.GetComponent<ProjectileBehaviour>().StartMoving(aggroTarget, AD);
 
+            StopCoroutine(StartRecovery());
+            StartCoroutine(StartRecovery());
+        }
+
+        IEnumerator StartRecovery()
+        {
+            isRecovering = true;
+            yield return new WaitForSeconds(recovery);
+            isRecovering = false;
         }
 
         private void CheckForTargets()
@@ -163,13 +192,13 @@ namespace Fabricator.Units
             float radius = aggroRange;
             float distanceToTarget;
 
-            if (aggroTarget != null)
-            {
-                distanceToTarget = Vector3.Distance(transform.position, aggroTarget.position);
+            //if (aggroTarget != null)
+            //{
+            //    distanceToTarget = Vector3.Distance(transform.position, aggroTarget.position);
 
-                if (distanceToTarget < aggroRange)
-                    radius = distanceToTarget;
-            }
+            //    if (distanceToTarget < aggroRange)
+            //        radius = distanceToTarget;
+            //}
 
             rangeColliders = Physics.OverlapSphere(transform.position, radius);
 

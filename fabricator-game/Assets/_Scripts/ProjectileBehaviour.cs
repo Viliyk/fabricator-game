@@ -24,7 +24,7 @@ public class ProjectileBehaviour : MonoBehaviour
             destination = targetPosition - transform.position;
         }
         else
-            Destroy(gameObject, 1);
+            Destroy(gameObject, 0.5f);
 
         distance = Vector3.Distance(transform.position, targetPosition);
         if (distance <= 0.5f)
@@ -41,6 +41,12 @@ public class ProjectileBehaviour : MonoBehaviour
 
     public void StartMoving(Transform unit, float amount)
     {
+        if (unit == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         damage = amount;
         target = unit;
         targetUnit = unit.GetComponentInParent<TestUnit>();
