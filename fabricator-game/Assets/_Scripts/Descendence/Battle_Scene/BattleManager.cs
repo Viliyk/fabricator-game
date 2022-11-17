@@ -125,14 +125,14 @@ public class BattleManager : MonoBehaviour
         //coroutineAudioFadeIn = AudioFadeIn(audioSource);
         //StartCoroutine(coroutineAudioFadeIn);
 
-        SpawnEnemies();
+        SpawnEnemyCards();
 
         enemyCommander.health = turnNumber * 10;
 
         yourCommander.health = lives;
     }
 
-    // text elements, loading next scene
+    // Text elements, loading next scene
     void Update()
     {
         if (Input.GetMouseButtonDown(1) && GlobalControl.Instance.targetMode)
@@ -156,7 +156,7 @@ public class BattleManager : MonoBehaviour
         baseUpText.text = "Upgrade: " + baseUpCost;
         enemyAttackText.text = timeToEnemyAttack.ToString("F1");
 
-        // load shop scene
+        // Load shop scene
         if (endBattle == true)
         {
             if (GlobalControl.Instance.currentNode == 4)    // load trader scene instead
@@ -268,6 +268,131 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    void TriggerOnBuild(ThisCard activatedCard, bool isEnemy)
+    {
+        ThisCard spawnedCard = null;
+
+        List<ThisCard> allyHand = new List<ThisCard>();
+        List<ThisCard> enemyHand = new List<ThisCard>();
+        List<ThisCard> allyBackline = new List<ThisCard>();
+        List<ThisCard> enemyBackline = new List<ThisCard>();
+
+        if (isEnemy == false)
+        {
+            if (!activatedCard.station)
+                SpawnUnit(activatedCard, false);
+
+            allyHand = yourHand;
+            allyBackline = backlineMinions;
+            enemyHand = enemyStasisMinions;
+            enemyBackline = enemyBacklineMinions;
+        }
+        else if (isEnemy == true)
+        {
+            if (!activatedCard.station)
+                SpawnUnit(activatedCard, true);
+
+            allyHand = enemyStasisMinions;
+            allyBackline = enemyBacklineMinions;
+            enemyHand = yourHand;
+            enemyBackline = backlineMinions;
+        }
+
+        // on build abilities
+        for (int i = 0; i < activatedCard.abilityList.Count; i++)
+        {
+            switch (activatedCard.abilityList[i][0])
+            {
+                default:
+                    break;
+
+                case 10:    // alchemist: give your other blueprints +1 health
+                    {
+                        foreach (ThisCard card in allyHand)
+                        {
+                            if (card != activatedCard)
+                                card.health += activatedCard.abilityList[i][1];
+                        }
+                    }
+                    break;
+                case 11:    // mobile barrier: give your other backline minions barrier
+                    {
+                        foreach (ThisCard card in allyBackline)
+                        {
+                            if (card != spawnedCard)
+                                card.abilityList.Add(CardDB.abilityDB[1]);
+                        }
+                    }
+                    break;
+                case 12:    // fungus farms: give your other chimera blueprints +1 health
+                    {
+                        foreach (ThisCard card in allyHand)
+                        {
+                            if (card != activatedCard && card.type == "Chimera")
+                            {
+                                card.attack += activatedCard.abilityList[i][1];
+                                card.health += activatedCard.abilityList[i][1];
+                            }
+                        }
+                    }
+                    break;
+                case 15:    // generator
+                    {
+                        energy += activatedCard.abilityList[i][1];
+                    }
+                    break;
+                case 16:
+                    {
+                        foreach (ThisCard card in allyHand)
+                        {
+                            if (card.transform.GetSiblingIndex() == activatedCard.transform.GetSiblingIndex() + 1
+                                || card.transform.GetSiblingIndex() == activatedCard.transform.GetSiblingIndex() - 1)
+                            {
+                                card.currentEnergy += activatedCard.abilityList[i][1];
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    public void SpawnUnit(ThisCard activatedCard, bool isEnemy)
+    {
+        // ******************* TEST *****************
+        Vector3 spawnPoint;
+        GameObject spawnedUnit;
+        TestUnit unitStats;
+
+        if (!isEnemy)
+            spawnPoint = new Vector3(0, 0, -5);
+        else
+            spawnPoint = new Vector3(0, 0, 12);
+
+        spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
+        unitStats = spawnedUnit.GetComponent<TestUnit>();
+        unitStats.AD = activatedCard.attack;
+        unitStats.HP = activatedCard.health;
+
+        if (isEnemy)
+        {
+            unitStats.isEnemy = true;
+            spawnedUnit.layer = 7;
+        }
+        // ******************************************
+
+
+        //if (t.admission)
+        //{
+        //    inactiveMinion = t;
+        //    inactiveMinionBlueprint = playedCard;
+        //    GlobalControl.Instance.targetMode = true;
+        //    SetViableTargets(t);
+        //}
+        //else
+        //ActivateMinion(playedCard, t, null);
+    }
+
     void SetAvailableEnemies()
     {
         int level = 1;
@@ -290,7 +415,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void SpawnEnemies()
+    void SpawnEnemyCards()
     {
         for (int i = 0; i < Mathf.Clamp(turnNumber, 1, 7); i++)     // spawn enemy's cards on enemy hand
         {
@@ -516,38 +641,6 @@ public class BattleManager : MonoBehaviour
         t.backline = true;
         t.onField = true;
         TriggerOnPlay(t, target);
-    }
-
-    public void SpawnToBackline(bool isEnemy)
-    {
-        // ******************* TEST *****************
-        Vector3 spawnPoint;
-        GameObject spawnedUnit;
-
-
-        if (!isEnemy)
-            spawnPoint = new Vector3(0, 0, -5);
-        else
-            spawnPoint = new Vector3(0, 0, 12);
-
-        spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
-        if (isEnemy)
-        {
-            spawnedUnit.GetComponent<TestUnit>().isEnemy = true;
-            spawnedUnit.layer = 7;
-        }
-        // ******************************************
-
-
-        //if (t.admission)
-        //{
-        //    inactiveMinion = t;
-        //    inactiveMinionBlueprint = playedCard;
-        //    GlobalControl.Instance.targetMode = true;
-        //    SetViableTargets(t);
-        //}
-        //else
-        //ActivateMinion(playedCard, t, null);
     }
 
     void BuildCooldown(GameObject card)
@@ -817,95 +910,6 @@ public class BattleManager : MonoBehaviour
     {
         if (playedCard.admission)
             AdmissionFunctionality(playedCard, target);
-    }
-
-    void TriggerOnBuild(ThisCard activatedCard, bool isEnemy)
-    {
-        ThisCard spawnedCard = null;
-
-        List<ThisCard> allyHand = new List<ThisCard>();
-        List<ThisCard> enemyHand = new List<ThisCard>();
-        List<ThisCard> allyBackline = new List<ThisCard>();
-        List<ThisCard> enemyBackline = new List<ThisCard>();
-
-        if (isEnemy == false)
-        {
-            if (!activatedCard.station)
-                SpawnToBackline(false);
-
-            allyHand = yourHand;
-            allyBackline = backlineMinions;
-            enemyHand = enemyStasisMinions;
-            enemyBackline = enemyBacklineMinions;
-        }
-        else if (isEnemy == true)
-        {
-            if (!activatedCard.station)
-                SpawnToBackline(true);
-
-            allyHand = enemyStasisMinions;
-            allyBackline = enemyBacklineMinions;
-            enemyHand = yourHand;
-            enemyBackline = backlineMinions;
-        }
-
-        // on build abilities
-        for (int i = 0; i < activatedCard.abilityList.Count; i++)
-        {
-            switch (activatedCard.abilityList[i][0])
-            {
-                default:
-                    break;
-
-                case 10:    // alchemist: give your other blueprints +1 health
-                    {
-                        foreach (ThisCard card in allyHand)
-                        {
-                            if (card != activatedCard)
-                                card.health += activatedCard.abilityList[i][1];
-                        }
-                    }
-                    break;
-                case 11:    // mobile barrier: give your other backline minions barrier
-                    {
-                        foreach (ThisCard card in allyBackline)
-                        {
-                            if (card != spawnedCard)
-                                card.abilityList.Add(CardDB.abilityDB[1]);
-                        }
-                    }
-                    break;
-                case 12:    // fungus farms: give your other chimera blueprints +1 health
-                    {
-                        foreach (ThisCard card in allyHand)
-                        {
-                            if (card != activatedCard && card.type == "Chimera")
-                            {
-                                card.attack += activatedCard.abilityList[i][1];
-                                card.health += activatedCard.abilityList[i][1];
-                            }
-                        }
-                    }
-                    break;
-                case 15:    // generator
-                    {
-                        energy += activatedCard.abilityList[i][1];
-                    }
-                    break;
-                case 16:
-                    {
-                        foreach (ThisCard card in allyHand)
-                        {
-                            if (card.transform.GetSiblingIndex() == activatedCard.transform.GetSiblingIndex() + 1
-                                || card.transform.GetSiblingIndex() == activatedCard.transform.GetSiblingIndex() - 1)
-                            {
-                                card.currentEnergy += activatedCard.abilityList[i][1];
-                            }
-                        }
-                    }
-                    break;
-            }
-        }
     }
 
     public void PayEnergy(float amount, bool isEnemy)

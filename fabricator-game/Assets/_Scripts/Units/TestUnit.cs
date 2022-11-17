@@ -39,7 +39,7 @@ namespace Fabricator.Units
         private float aggroRange = 10;
         private float range = 6;
         public float HP = 500;
-        private float AD = 1;
+        public float AD = 1;
         private float AS = 1;
 
         private float attackCD = 0;
