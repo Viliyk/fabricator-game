@@ -36,7 +36,7 @@ public class ProjectileBehaviour : MonoBehaviour
         }
 
         if (move)
-            transform.Translate((destination.normalized) * Time.deltaTime * 25);
+            transform.Translate((destination.normalized) * Time.deltaTime * 35);
     }
 
     public void StartMoving(Transform unit, float amount)

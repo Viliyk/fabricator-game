@@ -150,7 +150,7 @@ namespace Fabricator.Units
             }
         }
 
-        private void Move(Vector3 position)
+        public void Move(Vector3 position)
         {
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 return;
