@@ -9,7 +9,7 @@ using Fabricator.Units;
 public class BattleManager : MonoBehaviour
 {
     [SerializeField] private GameObject unitTemplate = null;
-
+    [SerializeField] private UnitSpawner unitSpawner = null;
 
     [SerializeField] private GameObject cardTemplate = null;
     [SerializeField] private GameObject itemTemplate = null;
@@ -280,7 +280,7 @@ public class BattleManager : MonoBehaviour
         if (isEnemy == false)
         {
             if (!activatedCard.station)
-                SpawnUnit(activatedCard, false);
+                unitSpawner.SpawnUnit(activatedCard, false);
 
             allyHand = yourHand;
             allyBackline = backlineMinions;
@@ -290,7 +290,7 @@ public class BattleManager : MonoBehaviour
         else if (isEnemy == true)
         {
             if (!activatedCard.station)
-                SpawnUnit(activatedCard, true);
+                unitSpawner.SpawnUnit(activatedCard, true);
 
             allyHand = enemyStasisMinions;
             allyBackline = enemyBacklineMinions;
@@ -360,25 +360,25 @@ public class BattleManager : MonoBehaviour
     public void SpawnUnit(ThisCard activatedCard, bool isEnemy)
     {
         // ******************* TEST *****************
-        Vector3 spawnPoint;
-        GameObject spawnedUnit;
-        TestUnit unitStats;
+        //Vector3 spawnPoint;
+        //GameObject spawnedUnit;
+        //TestUnit unitStats;
 
-        if (!isEnemy)
-            spawnPoint = new Vector3(0, 0, -5);
-        else
-            spawnPoint = new Vector3(0, 0, 12);
+        //if (!isEnemy)
+        //    spawnPoint = new Vector3(0, 0, -5);
+        //else
+        //    spawnPoint = new Vector3(0, 0, 12);
 
-        spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
-        unitStats = spawnedUnit.GetComponent<TestUnit>();
-        unitStats.AD = activatedCard.attack;
-        unitStats.HP = activatedCard.health;
+        //spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
+        //unitStats = spawnedUnit.GetComponent<TestUnit>();
+        //unitStats.AD = activatedCard.attack;
+        //unitStats.HP = activatedCard.health;
 
-        if (isEnemy)
-        {
-            unitStats.isEnemy = true;
-            spawnedUnit.layer = 7;
-        }
+        //if (isEnemy)
+        //{
+        //    unitStats.isEnemy = true;
+        //    spawnedUnit.layer = 7;
+        //}
         // ******************************************
 
 

@@ -85,7 +85,7 @@ namespace Fabricator.Units
                 forceMove = false;
 
             // Look for targets when commands are not issued
-            if (!forceAttack && !forceMove)
+            if (!forceAttack && !forceMove && !isRecovering)
                 CheckForTargets();
 
             // Chase and attack target
@@ -200,9 +200,9 @@ namespace Fabricator.Units
             //        radius = distanceToTarget;
             //}
 
-            rangeColliders = Physics.OverlapSphere(transform.position, radius);
+            rangeColliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Allies", "Enemies"));
 
-            if (rangeColliders.Length == 2)
+            if (rangeColliders.Length == 1)
             {
                 aggroTarget = null;
                 return;

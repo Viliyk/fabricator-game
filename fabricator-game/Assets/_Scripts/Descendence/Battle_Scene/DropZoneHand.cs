@@ -16,7 +16,7 @@ public class DropZoneHand : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         RectTransform rt = GetComponent<RectTransform>();
         //transform.localScale = new Vector3(1.8f, 1.8f, 1);
         //transform.localPosition = new Vector3(0, -174.82f, 0);
-        rt.anchoredPosition = new Vector2(0, -170);
+        //rt.anchoredPosition = new Vector2(0, -170);
 
         if (eventData.pointerDrag == null)
             return;
@@ -31,7 +31,7 @@ public class DropZoneHand : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         RectTransform rt = GetComponent<RectTransform>();
         //transform.localScale = new Vector3(1, 1, 1);
         //transform.localPosition = new Vector3(0, -214, 0);
-        rt.anchoredPosition = new Vector2(0, -215);
+        //rt.anchoredPosition = new Vector2(0, -215);
 
         if (eventData.pointerDrag == null)
             return;
