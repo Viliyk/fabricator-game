@@ -15,6 +15,7 @@ namespace Fabricator.Units
         [SerializeField] private GameObject projectile = null;
         [SerializeField] private TMP_Text powerText = null;
         [SerializeField] private SimpleFlash flashEffect = null;
+        [SerializeField] private Canvas display = null;
         private Camera mainCamera;
         public LayerMask ground;
         public LayerMask enemyLayer;
@@ -54,15 +55,25 @@ namespace Fabricator.Units
             if (isEnemy)
             {
                 unitBase.material.color = Color.red;
-                enemyLayer = LayerMask.NameToLayer("Allies");
+                enemyLayer = LayerMask.GetMask("Allies");
             }
             else
-                enemyLayer = LayerMask.NameToLayer("Enemies");
+                enemyLayer = LayerMask.GetMask("Enemies");
 
             if (isEnemy)
             {
                 myAgent.speed = 3;
                 range = 2;
+            }
+        }
+
+        void LateUpdate()
+        {
+            // Scale unit UI according to distance from camera
+            if (display != null)
+            {
+                float distance = Mathf.Clamp(Vector3.Distance(display.transform.position, mainCamera.transform.position), 0, 54f);
+                display.transform.localScale = Vector3.one * distance / 54f;
             }
         }
 
@@ -85,6 +96,7 @@ namespace Fabricator.Units
                 forceMove = false;
 
             // Look for targets when commands are not issued
+            rangeColliders = new Collider[22];
             if (!forceAttack && !forceMove && !isRecovering)
                 CheckForTargets();
 
@@ -192,24 +204,27 @@ namespace Fabricator.Units
             float radius = aggroRange;
             float distanceToTarget;
 
-            //if (aggroTarget != null)
-            //{
-            //    distanceToTarget = Vector3.Distance(transform.position, aggroTarget.position);
+            // Don't check for targets further away than current aggro target
+            if (aggroTarget != null)
+            {
+                distanceToTarget = Vector3.Distance(transform.position, aggroTarget.position);
 
-            //    if (distanceToTarget < aggroRange)
-            //        radius = distanceToTarget;
-            //}
+                if (distanceToTarget < aggroRange)
+                    radius = distanceToTarget;
+            }
 
-            rangeColliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Allies", "Enemies"));
+            //rangeColliders = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask("Allies", "Enemies"));
 
-            if (rangeColliders.Length == 1)
+            int numColliders = Physics.OverlapSphereNonAlloc(transform.position, radius, rangeColliders, enemyLayer);
+
+            if (numColliders == 0)
             {
                 aggroTarget = null;
                 return;
             }
 
             Transform closest = null;
-            for (int i = 0; i < rangeColliders.Length; i++)
+            for (int i = 0; i < numColliders; i++)
             {
                 Transform unitInRange = rangeColliders[i].transform;
                 TestUnit unit = unitInRange.GetComponentInParent<TestUnit>();
@@ -220,13 +235,13 @@ namespace Fabricator.Units
                 if (isEnemy == unit.isEnemy)
                     continue;
                 // Pick closest unit
-                if (unitInRange.gameObject.layer == enemyLayer)
-                {
+                //if (unitInRange.gameObject.layer == enemyLayer)
+                //{
                     if (closest == null)
                         closest = unitInRange;
                     else if (Vector3.Distance(transform.position, unitInRange.position) < Vector3.Distance(transform.position, closest.position))
                         closest = unitInRange;
-                }
+                //}
             }
             aggroTarget = closest;
         }
