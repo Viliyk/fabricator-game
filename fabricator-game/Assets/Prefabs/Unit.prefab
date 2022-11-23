@@ -490,9 +490,10 @@ GameObject:
   m_Component:
   - component: {fileID: 8169053957942460037}
   - component: {fileID: 1899490976662243776}
+  - component: {fileID: 4118182183347794374}
+  - component: {fileID: 5331003921845617671}
   - component: {fileID: 7165111097356326676}
   - component: {fileID: 8873320466390180355}
-  - component: {fileID: 5331003921845617671}
   m_Layer: 6
   m_Name: Unit
   m_TagString: Untagged
@@ -534,7 +535,6 @@ MonoBehaviour:
   unitBase: {fileID: 5256318647603763493}
   projectile: {fileID: 8814032352920702993, guid: 4e268a19dc1299f409b1b593973ab3ec, type: 3}
   powerText: {fileID: 7393952198027101902}
-  flashEffect: {fileID: 5331003921845617671}
   display: {fileID: 2623002533179312414}
   ground:
     serializedVersion: 2
@@ -547,11 +547,37 @@ MonoBehaviour:
   forceAttack: 0
   rangeColliders: []
   aggroTarget: {fileID: 0}
-  healthBar: {fileID: 6449233455605984202}
   isEnemy: 0
-  HP: 5
   AD: 1
-  gawrsh: 54
+--- !u!114 &4118182183347794374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169053957942460057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9322c27b7fbad374f9d73739cea93b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashEffect: {fileID: 5331003921845617671}
+  HP: 5
+  healthBar: {fileID: 6449233455605984202}
+--- !u!114 &5331003921845617671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8169053957942460057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e87e6e30a6d4342ae8bf5475796521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: d4b84b3bfc956f040b9644746cbce9b6, type: 2}
+  duration: 0.1
 --- !u!195 &7165111097356326676
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -588,20 +614,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!114 &5331003921845617671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8169053957942460057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0e87e6e30a6d4342ae8bf5475796521, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flashMaterial: {fileID: 2100000, guid: d4b84b3bfc956f040b9644746cbce9b6, type: 2}
-  duration: 0.1
 --- !u!1 &8357747765608426295
 GameObject:
   m_ObjectHideFlags: 0

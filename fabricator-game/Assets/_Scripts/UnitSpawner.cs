@@ -39,12 +39,13 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
         // Spawn unit
         GameObject spawnedUnit = Instantiate(unitPrefab, spawnPoint, Quaternion.identity);
         TestUnit newUnit = spawnedUnit.GetComponent<TestUnit>();
+        CanTakeDamage unitHealth = spawnedUnit.GetComponent<CanTakeDamage>();
 
         // Set stats
         if (activatedCard != null)
         {
             newUnit.AD = activatedCard.attack;
-            newUnit.HP = activatedCard.health;
+            unitHealth.HP = activatedCard.health;
         }
 
         // Tell ally unit to move to rally point

@@ -14,7 +14,6 @@ namespace Fabricator.Units
         [SerializeField] private MeshRenderer unitBase = null;
         [SerializeField] private GameObject projectile = null;
         [SerializeField] private TMP_Text powerText = null;
-        [SerializeField] private SimpleFlash flashEffect = null;
         [SerializeField] private Canvas display = null;
         private Camera mainCamera;
         public LayerMask ground;
@@ -33,13 +32,10 @@ namespace Fabricator.Units
         private bool hasAggro = false;
         private float distance;
 
-        public Slider healthBar;
-
         public bool isEnemy;
 
         private float aggroRange = 10;
         private float range = 6;
-        public float HP = 500;
         public float AD = 1;
         private float AS = 1;
 
@@ -50,7 +46,6 @@ namespace Fabricator.Units
         void Start()
         {
             mainCamera = Camera.main;
-            healthBar.maxValue = HP;
 
             if (isEnemy)
             {
@@ -81,7 +76,6 @@ namespace Fabricator.Units
         {
             // Update UI elements
             powerText.text = "" + AD;
-            healthBar.value = HP;
 
             // Tick down attack cooldown
             if (attackCD > 0)
@@ -103,8 +97,10 @@ namespace Fabricator.Units
             // Chase and attack target
             if (aggroTarget != null && !forceMove)
             {
+                Collider collider = aggroTarget.GetComponent<Collider>();
                 // Move to range of aggro target
-                if (Vector3.Distance(transform.position, aggroTarget.position) > range)
+                //if (Vector3.Distance(transform.position, aggroTarget.position) > range)
+                if (Vector3.Distance(transform.position, collider.ClosestPoint(transform.position)) > range)
                     Move(aggroTarget.position);
                 else
                 {
@@ -127,10 +123,6 @@ namespace Fabricator.Units
                 UnitCommands(true);     // "A" for attack-move
             if (Keyboard.current.tabKey.wasPressedThisFrame && selected)
                 UnitCommands(true);     // "Tab" for attack-move
-
-            // Destroy this unit when HP reaches 0
-            if (HP <= 0)
-                Die();
         }
 
         private void UnitCommands(bool IsAttackMove)
@@ -227,13 +219,13 @@ namespace Fabricator.Units
             for (int i = 0; i < numColliders; i++)
             {
                 Transform unitInRange = rangeColliders[i].transform;
-                TestUnit unit = unitInRange.GetComponentInParent<TestUnit>();
+                CanTakeDamage unit = unitInRange.GetComponentInParent<CanTakeDamage>();
                 // Ignore null units
                 if (unit == null)
                     continue;
                 // Ignore allied units
-                if (isEnemy == unit.isEnemy)
-                    continue;
+                //if (isEnemy == unit.isEnemy)
+                //    continue;
                 // Pick closest unit
                 //if (unitInRange.gameObject.layer == enemyLayer)
                 //{
@@ -262,20 +254,6 @@ namespace Fabricator.Units
 
             selected = false;
             unitBase.material.color = Color.white;
-        }
-
-        public void TakeDamage(float amount)
-        {
-            HP -= amount;
-
-            if (flashEffect != null && HP > 0)
-                flashEffect.Flash();
-        }
-
-        private void Die()
-        {
-            UnitSelection.Instance.selectedObjects.Remove(GetComponent<ISelectable>());
-            Destroy(gameObject);
         }
     }
 }

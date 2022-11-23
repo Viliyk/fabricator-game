@@ -447,6 +447,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4074340820904597358}
   - component: {fileID: 6019308096404299819}
+  - component: {fileID: 116806493379391454}
+  - component: {fileID: 2706299691243090391}
   - component: {fileID: 3079106157372964607}
   - component: {fileID: 1631011206098631032}
   m_Layer: 6
@@ -490,7 +492,7 @@ MonoBehaviour:
   unitBase: {fileID: 82905225993908430}
   projectile: {fileID: 8814032352920702993, guid: 4e268a19dc1299f409b1b593973ab3ec, type: 3}
   powerText: {fileID: 3003769656957219672}
-  flashEffect: {fileID: 0}
+  display: {fileID: 7348483327544105687}
   ground:
     serializedVersion: 2
     m_Bits: 8
@@ -502,10 +504,37 @@ MonoBehaviour:
   forceAttack: 0
   rangeColliders: []
   aggroTarget: {fileID: 0}
-  healthBar: {fileID: 3973036811167237293}
   isEnemy: 0
-  HP: 5
   AD: 1
+--- !u!114 &116806493379391454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074340820904597362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9322c27b7fbad374f9d73739cea93b28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashEffect: {fileID: 2706299691243090391}
+  HP: 5
+  healthBar: {fileID: 3973036811167237293}
+--- !u!114 &2706299691243090391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4074340820904597362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0e87e6e30a6d4342ae8bf5475796521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flashMaterial: {fileID: 2100000, guid: d4b84b3bfc956f040b9644746cbce9b6, type: 2}
+  duration: 0.1
 --- !u!195 &3079106157372964607
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -560,7 +589,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4455147472288302079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -678,7 +707,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -0.060000002, y: -0.060000002}
   m_Pivot: {x: 0.5, y: 0.5}

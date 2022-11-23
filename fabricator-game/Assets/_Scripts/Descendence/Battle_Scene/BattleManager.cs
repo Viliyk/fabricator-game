@@ -66,7 +66,7 @@ public class BattleManager : MonoBehaviour
     private List<ThisCard> enemyBacklineMinions = new List<ThisCard>();
     private List<ThisCard> enemyStasisMinions = new List<ThisCard>();
 
-    public ThisCard yourCommander;
+    public CanTakeDamage yourCommander;
     public ThisCard enemyCommander;
 
     public ThisCard inactiveMinion;
@@ -129,7 +129,7 @@ public class BattleManager : MonoBehaviour
 
         enemyCommander.health = turnNumber * 10;
 
-        yourCommander.health = lives;
+        yourCommander.HP = lives;
     }
 
     // Text elements, loading next scene
@@ -145,7 +145,7 @@ public class BattleManager : MonoBehaviour
         }
 
 
-        lives = yourCommander.health;
+        lives = (int)yourCommander.HP;
 
 
         livesText.text = "Lives: " + lives;
@@ -256,13 +256,13 @@ public class BattleManager : MonoBehaviour
             }
 
             // battle lost
-            if (yourCommander.health <= 0)
+            if (yourCommander.HP <= 0)
             {
                 pauseBattle = true;
 
                 defeatText.SetActive(true);
 
-                yield return new WaitForSeconds(battleSpeed * 70);
+                yield return new WaitForSeconds(battleSpeed * 100);
                 BattleLost();
             }
         }

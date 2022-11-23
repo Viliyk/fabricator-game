@@ -8,7 +8,7 @@ public class ProjectileBehaviour : MonoBehaviour
     private bool move = false;
     public float distance;
     private Transform target;
-    private TestUnit targetUnit;
+    private CanTakeDamage targetUnit;
     public Vector3 targetPosition;
     public Vector3 destination;
     private float damage;
@@ -49,7 +49,7 @@ public class ProjectileBehaviour : MonoBehaviour
 
         damage = amount;
         target = unit;
-        targetUnit = unit.GetComponentInParent<TestUnit>();
+        targetUnit = unit.GetComponentInParent<CanTakeDamage>();
         move = true;
     }
 }
