@@ -248,9 +248,7 @@ public class BattleManager : MonoBehaviour
             if (enemyCommander.health <= 0)
             {
                 pauseBattle = true;
-
                 victoryText.SetActive(true);
-
                 yield return new WaitForSeconds(battleSpeed * 70);
                 BattleWon();
             }
@@ -259,10 +257,8 @@ public class BattleManager : MonoBehaviour
             if (yourCommander.HP <= 0)
             {
                 pauseBattle = true;
-
                 defeatText.SetActive(true);
-
-                yield return new WaitForSeconds(battleSpeed * 100);
+                yield return new WaitForSeconds(battleSpeed * 120);
                 BattleLost();
             }
         }
