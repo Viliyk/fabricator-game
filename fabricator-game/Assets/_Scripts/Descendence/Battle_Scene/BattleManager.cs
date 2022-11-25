@@ -10,6 +10,7 @@ public class BattleManager : MonoBehaviour
 {
     [SerializeField] private GameObject unitTemplate = null;
     [SerializeField] private UnitSpawner unitSpawner = null;
+    [SerializeField] private EnemySpawner enemySpawner = null;
 
     [SerializeField] private GameObject cardTemplate = null;
     [SerializeField] private GameObject itemTemplate = null;
@@ -67,7 +68,7 @@ public class BattleManager : MonoBehaviour
     private List<ThisCard> enemyStasisMinions = new List<ThisCard>();
 
     public CanTakeDamage yourCommander;
-    public ThisCard enemyCommander;
+    public CanTakeDamage enemyCommander;
 
     public ThisCard inactiveMinion;
     public GameObject inactiveMinionBlueprint;
@@ -127,7 +128,7 @@ public class BattleManager : MonoBehaviour
 
         SpawnEnemyCards();
 
-        enemyCommander.health = turnNumber * 10;
+        enemyCommander.HP = turnNumber * 10;
 
         yourCommander.HP = lives;
     }
@@ -245,11 +246,11 @@ public class BattleManager : MonoBehaviour
             }
 
             // battle won
-            if (enemyCommander.health <= 0)
+            if (enemyCommander.HP <= 0)
             {
                 pauseBattle = true;
                 victoryText.SetActive(true);
-                yield return new WaitForSeconds(battleSpeed * 70);
+                yield return new WaitForSeconds(battleSpeed * 120);
                 BattleWon();
             }
 
@@ -275,6 +276,9 @@ public class BattleManager : MonoBehaviour
 
         if (isEnemy == false)
         {
+            if (unitSpawner == null)
+                return;
+
             if (!activatedCard.station)
                 unitSpawner.SpawnUnit(activatedCard, false);
 
@@ -285,8 +289,11 @@ public class BattleManager : MonoBehaviour
         }
         else if (isEnemy == true)
         {
+            if (enemySpawner == null)
+                return;
+
             if (!activatedCard.station)
-                unitSpawner.SpawnUnit(activatedCard, true);
+                enemySpawner.SpawnUnit(activatedCard, true);
 
             allyHand = enemyStasisMinions;
             allyBackline = enemyBacklineMinions;

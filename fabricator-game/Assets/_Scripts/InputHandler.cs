@@ -38,6 +38,8 @@ namespace Fabricator.InputManager
                     {
                         case 6:
                             break;
+                        case 7:
+                            break;
                         case 9:
                             break;
                         default:

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Fabricator.Units;
 
-public class UnitSpawner : MonoBehaviour, IPointerClickHandler
+public class EnemySpawner : MonoBehaviour, IPointerClickHandler
 {
     [SerializeField] private GameObject unitPrefab = null;
     [SerializeField] private Transform unitSpawnPoint = null;
@@ -14,7 +14,7 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
     {
         if (Input.GetKeyDown(KeyCode.B))
         {
-            SpawnUnit(null, false);
+            SpawnUnit(null, true);
         }
     }
 
@@ -24,17 +24,14 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
         if (eventData.button != PointerEventData.InputButton.Left)
             return;
 
-        SpawnUnit(null, false);
+        SpawnUnit(null, true);
     }
 
     public void SpawnUnit(ThisCard activatedCard, bool isEnemy)
     {
         // Decide spawn position
         Vector3 spawnPoint;
-        if (!isEnemy)
-            spawnPoint = unitSpawnPoint.position;
-        else
-            spawnPoint = new Vector3(0, 0, 12);
+        spawnPoint = unitSpawnPoint.position;
 
         // Spawn unit
         GameObject spawnedUnit = Instantiate(unitPrefab, spawnPoint, Quaternion.identity);
@@ -49,13 +46,10 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
         }
 
         // Tell spawned unit to move to rally point
-        if (!isEnemy)
-            newUnit.Move(spawnPoint + new Vector3(0, 0, 5));
-        else
+        newUnit.Move(spawnPoint + new Vector3(0, 0, -55));
+
         // Set enemy unit as an enemy
-        {
-            newUnit.isEnemy = true;
-            spawnedUnit.layer = 7;
-        }
+        newUnit.isEnemy = true;
+        spawnedUnit.layer = 7;
     }
 }
