@@ -78,7 +78,7 @@ public class BattleManager : MonoBehaviour
     private float energyRate = 10.0f;
     public float enemyEnergy;
     private float enemyEnergyRate = 4.0f;
-    private double timeToEnemyAttack = 15;
+    private double timeToEnemyAttack = 20;
 
     private GameObject spawnedBullet;
 
@@ -116,7 +116,7 @@ public class BattleManager : MonoBehaviour
         chargeRate = battleSpeed;
 
         energy = 100;
-        enemyEnergy = 50;
+        enemyEnergy = 100;
 
         SetAvailableEnemies();      // enemies can be one tier higher every 3 turns
         RestorePlayerBoard();       // spawn player's cards on board
@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
 
         SpawnEnemyCards();
 
-        enemyCommander.HP = turnNumber * 10;
+        enemyCommander.HP = turnNumber * 20;
 
         yourCommander.HP = lives;
     }
@@ -184,7 +184,8 @@ public class BattleManager : MonoBehaviour
             timeToEnemyAttack = System.Math.Round(timeToEnemyAttack - chargeRate, 3);
             if (timeToEnemyAttack <= 0)
             {
-                timeToEnemyAttack = 15;
+                enemySpawner.UnleashEnemies();
+                timeToEnemyAttack = 20;
 
                 //foreach (ThisCard card in enemyBacklineMinions)
                 //{

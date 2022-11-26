@@ -9,6 +9,8 @@ public class EnemySpawner : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject unitPrefab = null;
     [SerializeField] private Transform unitSpawnPoint = null;
 
+    private List<TestUnit> unitList = new List<TestUnit>();
+
     // ***Test***
     private void Update()
     {
@@ -45,11 +47,22 @@ public class EnemySpawner : MonoBehaviour, IPointerClickHandler
             unitHealth.HP = activatedCard.health;
         }
 
-        // Tell spawned unit to move to rally point
-        newUnit.Move(spawnPoint + new Vector3(0, 0, -55));
-
         // Set enemy unit as an enemy
-        newUnit.isEnemy = true;
         spawnedUnit.layer = 7;
+        newUnit.isEnemy = true;
+        newUnit.isWaiting = true;
+        unitList.Add(newUnit);
+
+        // Tell spawned unit to move to rally point
+        newUnit.Move(spawnPoint + new Vector3(0, 0, -55), true);
+    }
+
+    public void UnleashEnemies()
+    {
+        foreach (TestUnit unit in unitList)
+        {
+            unit.isWaiting = false;
+        }
+        unitList.Clear();
     }
 }

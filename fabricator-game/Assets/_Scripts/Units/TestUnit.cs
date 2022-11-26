@@ -21,9 +21,11 @@ namespace Fabricator.Units
         private GameObject spawnedProjectile;
 
         public Vector3 destination;
+        private Vector3 persistentDestination;
         public bool forceMove = false;
         public bool forceAttack = false;
         private bool isRecovering = false;
+        public bool isWaiting = false;
 
         private bool selected = false;
 
@@ -77,16 +79,22 @@ namespace Fabricator.Units
             // Update UI elements
             powerText.text = "" + AD;
 
+            // Force unit to stay still
+            myAgent.isStopped = isWaiting;
+
             // Tick down attack cooldown
             if (attackCD > 0)
                 attackCD -= Time.deltaTime;
 
-            // Remove attack command if move command is issued or target is null
+            // Remove attack command if move command is issued or target is null, and continue moving to persistent destination
             if (forceMove || aggroTarget == null)
+            {
                 forceAttack = false;
+                myAgent.SetDestination(persistentDestination);
+            }
 
             // Remove move command when arriving at destination
-            if (Vector3.Distance(transform.position, destination) <= 0.1f)
+            if (Vector3.Distance(transform.position, persistentDestination) <= 0.1f)
                 forceMove = false;
 
             // Look for targets when commands are not issued
@@ -101,7 +109,7 @@ namespace Fabricator.Units
                 // Move to range of aggro target
                 //if (Vector3.Distance(transform.position, aggroTarget.position) > range)
                 if (Vector3.Distance(transform.position, collider.ClosestPoint(transform.position)) > range)
-                    Move(aggroTarget.position);
+                    Move(aggroTarget.position, false);
                 else
                 {
                     // Stop when in range
@@ -143,7 +151,7 @@ namespace Fabricator.Units
                             forceMove = true;
                         else
                             forceMove = false;
-                        Move(hit.point);
+                        Move(hit.point, true);
                         break;
                     case 7:     // Enemy layer: Choose this enemy as a target
                         forceMove = false;
@@ -154,7 +162,7 @@ namespace Fabricator.Units
             }
         }
 
-        public void Move(Vector3 position)
+        public void Move(Vector3 position, bool isPersistent)
         {
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 return;
@@ -164,6 +172,9 @@ namespace Fabricator.Units
                 destination = hit.position;
                 myAgent.SetDestination(destination);
             }
+
+            if (isPersistent)
+                persistentDestination = hit.position;
         }
 
         IEnumerator Attack()
