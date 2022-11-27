@@ -2,9 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class CameraMovement : MonoBehaviour
 {
+    UniversalRenderPipelineAsset urp;
+
     float speed = 0.01f;
     float zoomSpeed = 10.0f;
     float rotationSpeed = 0.1f;
@@ -14,6 +18,11 @@ public class CameraMovement : MonoBehaviour
 
     Vector2 p1;
     Vector2 p2;
+
+    void Start()
+    {
+        urp = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
+    }
 
     void LateUpdate()
     {
@@ -56,6 +65,9 @@ public class CameraMovement : MonoBehaviour
         transform.position += move;
 
         MiddleClickMove();
+
+        // Adjust shadow distance based on camera height
+        urp.shadowDistance = Mathf.Clamp(transform.position.y * 1.7f, 30, 220);
     }
 
     void MiddleClickMove()

@@ -74,7 +74,7 @@ namespace Fabricator.Units
             // Scale unit UI according to distance from camera
             if (display != null)
             {
-                float distance = Mathf.Clamp(Vector3.Distance(display.transform.position, mainCamera.transform.position), 0, 54f);
+                float distance = Mathf.Clamp(Vector3.Distance(display.transform.position, mainCamera.transform.position), 0, 60f);
                 display.transform.localScale = Vector3.one * distance / 54f;
             }
 
@@ -103,7 +103,7 @@ namespace Fabricator.Units
             if (forceMove || aggroTarget == null)
             {
                 forceAttack = false;
-                myAgent.SetDestination(persistentDestination);
+                Move(persistentDestination, false);
             }
 
             // Remove move command when arriving at destination
@@ -175,7 +175,7 @@ namespace Fabricator.Units
             }
         }
 
-        public void Move(Vector3 position, bool isPersistent)
+        public void Move(Vector3 position, bool setPersistent)
         {
             if (!NavMesh.SamplePosition(position, out NavMeshHit hit, 1f, NavMesh.AllAreas))
                 return;
@@ -186,7 +186,7 @@ namespace Fabricator.Units
                 myAgent.SetDestination(destination);
             }
 
-            if (isPersistent)
+            if (setPersistent)
                 persistentDestination = hit.position;
         }
 
