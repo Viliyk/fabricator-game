@@ -19,8 +19,8 @@ namespace Fabricator.Units
 
         void Start()
         {
-            GameObject spawnedUnit = Instantiate(unit.unitPrefab, transform.position, Quaternion.identity, playerUnits);
-            GameObject spawnedUnit2 = Instantiate(unit2.unitPrefab, transform.position, Quaternion.identity, playerUnits);
+            //GameObject spawnedUnit = Instantiate(unit.unitPrefab, transform.position, Quaternion.identity, playerUnits);
+            //GameObject spawnedUnit2 = Instantiate(unit2.unitPrefab, transform.position, Quaternion.identity, playerUnits);
         }
 
         private void Update()

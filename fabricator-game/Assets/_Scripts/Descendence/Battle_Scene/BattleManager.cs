@@ -128,7 +128,7 @@ public class BattleManager : MonoBehaviour
 
         SpawnEnemyCards();
 
-        enemyCommander.HP = turnNumber * 20;
+        enemyCommander.HP = turnNumber * 200;
 
         yourCommander.HP = lives;
     }

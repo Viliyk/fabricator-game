@@ -51,7 +51,7 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
         // Tell spawned unit to move to rally point
         if (!isEnemy)
             //newUnit.Move(spawnPoint + new Vector3(5, 0, 5), true);
-            newUnit.Move(spawnPoint + new Vector3(60, 0, 60), true);
+            newUnit.Move(spawnPoint + new Vector3(55, 0, 55), true);
         else
         // Set enemy unit as an enemy
         {

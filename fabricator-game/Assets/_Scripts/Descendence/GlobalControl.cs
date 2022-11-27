@@ -71,8 +71,8 @@ public class GlobalControl : MonoBehaviour
         lockedCards = new int[7];
         isLocked = false;
         turnNumber = 1;
-        lives = 100;
-        maxLives = 100;
+        lives = 1000;
+        maxLives = 1000;
         credits = 100;
         pathNumber = 0;
 

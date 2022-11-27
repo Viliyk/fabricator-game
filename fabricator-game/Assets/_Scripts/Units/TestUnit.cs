@@ -12,6 +12,7 @@ namespace Fabricator.Units
     {
         [SerializeField] private NavMeshAgent myAgent = null;
         [SerializeField] private MeshRenderer unitBase = null;
+        [SerializeField] private Transform sprite = null;
         [SerializeField] private GameObject projectile = null;
         [SerializeField] private TMP_Text powerText = null;
         [SerializeField] private Canvas display = null;
@@ -33,6 +34,8 @@ namespace Fabricator.Units
         public Transform aggroTarget = null;
         private bool hasAggro = false;
         private float distance;
+        private Vector3 lastPos;
+        private Vector3 currentPos;
 
         public bool isEnemy;
 
@@ -49,6 +52,8 @@ namespace Fabricator.Units
         {
             mainCamera = Camera.main;
 
+            lastPos = transform.position;
+
             if (isEnemy)
             {
                 unitBase.material.color = Color.red;
@@ -60,7 +65,7 @@ namespace Fabricator.Units
             if (isEnemy)
             {
                 myAgent.speed = 3;
-                range = 2;
+                range = 5;
             }
         }
 
@@ -72,6 +77,14 @@ namespace Fabricator.Units
                 float distance = Mathf.Clamp(Vector3.Distance(display.transform.position, mainCamera.transform.position), 0, 54f);
                 display.transform.localScale = Vector3.one * distance / 54f;
             }
+
+            // Flip the sprite based on movement on the X axis
+            currentPos = transform.position;
+            if (currentPos.x > lastPos.x)
+                sprite.localScale = new Vector3(-1, 1, 1);
+            if (currentPos.x < lastPos.x)
+                sprite.localScale = new Vector3(1, 1, 1);
+            lastPos = currentPos;
         }
 
         void Update()
@@ -240,10 +253,10 @@ namespace Fabricator.Units
                 // Pick closest unit
                 //if (unitInRange.gameObject.layer == enemyLayer)
                 //{
-                    if (closest == null)
-                        closest = unitInRange;
-                    else if (Vector3.Distance(transform.position, unitInRange.position) < Vector3.Distance(transform.position, closest.position))
-                        closest = unitInRange;
+                if (closest == null)
+                    closest = unitInRange;
+                else if (Vector3.Distance(transform.position, unitInRange.position) < Vector3.Distance(transform.position, closest.position))
+                    closest = unitInRange;
                 //}
             }
             aggroTarget = closest;
