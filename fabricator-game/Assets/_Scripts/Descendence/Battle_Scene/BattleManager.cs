@@ -184,7 +184,8 @@ public class BattleManager : MonoBehaviour
             timeToEnemyAttack = System.Math.Round(timeToEnemyAttack - chargeRate, 3);
             if (timeToEnemyAttack <= 0)
             {
-                enemySpawner.UnleashEnemies();
+                enemySpawner.UnleashUnits();
+                unitSpawner.UnleashUnits();
                 timeToEnemyAttack = 20;
 
                 //foreach (ThisCard card in enemyBacklineMinions)

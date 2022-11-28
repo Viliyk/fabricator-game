@@ -9,6 +9,15 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
     [SerializeField] private GameObject unitPrefab = null;
     [SerializeField] private Transform unitSpawnPoint = null;
 
+    Vector3 spawnPoint;
+    private List<TestUnit> unitList = new List<TestUnit>();
+
+    void Start()
+    {
+        // Decide spawn position
+        spawnPoint = unitSpawnPoint.position;
+    }
+
     // ***Test***
     private void Update()
     {
@@ -29,13 +38,6 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
 
     public void SpawnUnit(ThisCard activatedCard, bool isEnemy)
     {
-        // Decide spawn position
-        Vector3 spawnPoint;
-        if (!isEnemy)
-            spawnPoint = unitSpawnPoint.position;
-        else
-            spawnPoint = new Vector3(0, 0, 12);
-
         // Spawn unit
         GameObject spawnedUnit = Instantiate(unitPrefab, spawnPoint, Quaternion.identity);
         TestUnit newUnit = spawnedUnit.GetComponent<TestUnit>();
@@ -48,15 +50,18 @@ public class UnitSpawner : MonoBehaviour, IPointerClickHandler
             unitHealth.HP = activatedCard.health;
         }
 
+        unitList.Add(newUnit);
+
         // Tell spawned unit to move to rally point
-        if (!isEnemy)
-            //newUnit.Move(spawnPoint + new Vector3(5, 0, 5), true);
-            newUnit.Move(spawnPoint + new Vector3(55, 0, 55), true);
-        else
-        // Set enemy unit as an enemy
+        newUnit.Move(spawnPoint + new Vector3(5, 0, 5), true);
+    }
+
+    public void UnleashUnits()
+    {
+        foreach (TestUnit unit in unitList)
         {
-            newUnit.isEnemy = true;
-            spawnedUnit.layer = 7;
+            unit.Move(spawnPoint + new Vector3(55, 0, 55), true);
         }
+        unitList.Clear();
     }
 }

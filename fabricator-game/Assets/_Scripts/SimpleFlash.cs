@@ -11,10 +11,10 @@ public class SimpleFlash : MonoBehaviour
     [SerializeField] private float duration;
 
     // The SpriteRenderer that should flash.
-    private SpriteRenderer[] spriteRenderers;
+    public SpriteRenderer[] spriteRenderers;
 
     // The material that was in use, when the script started.
-    private Material[] originalMaterials = new Material[7];
+    private Material[] originalMaterials = new Material[6];
 
     // The currently running coroutine.
     private Coroutine flashRoutine;
@@ -23,7 +23,7 @@ public class SimpleFlash : MonoBehaviour
     {
         // Get the SpriteRenderer to be used,
         // alternatively you could set it from the inspector.
-        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+        //spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
 
         // Get the material that the SpriteRenderer uses, 
         // so we can switch back to it after the flash ended.

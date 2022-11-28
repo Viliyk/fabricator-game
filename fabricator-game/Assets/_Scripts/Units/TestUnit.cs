@@ -12,10 +12,12 @@ namespace Fabricator.Units
     {
         [SerializeField] private NavMeshAgent myAgent = null;
         [SerializeField] private MeshRenderer unitBase = null;
+        [SerializeField] private GameObject selectedIndicator = null;
         [SerializeField] private Transform sprite = null;
         [SerializeField] private GameObject projectile = null;
         [SerializeField] private TMP_Text powerText = null;
         [SerializeField] private Canvas display = null;
+        [SerializeField] private Image healthBar = null;
         private Camera mainCamera;
         public LayerMask ground;
         public LayerMask enemyLayer;
@@ -56,17 +58,15 @@ namespace Fabricator.Units
 
             if (isEnemy)
             {
-                unitBase.material.color = Color.red;
                 enemyLayer = LayerMask.GetMask("Allies");
-            }
-            else
-                enemyLayer = LayerMask.GetMask("Enemies");
 
-            if (isEnemy)
-            {
+                unitBase.material.color = Color.red;
+                healthBar.color = Color.red;
                 myAgent.speed = 3;
                 range = 5;
             }
+            else
+                enemyLayer = LayerMask.GetMask("Enemies");
         }
 
         void LateUpdate()
@@ -269,6 +269,7 @@ namespace Fabricator.Units
 
             selected = true;
             unitBase.material.color = Color.green;
+            selectedIndicator.SetActive(true);
         }
 
         public void Deselect()
@@ -278,6 +279,7 @@ namespace Fabricator.Units
 
             selected = false;
             unitBase.material.color = Color.white;
+            selectedIndicator.SetActive(false);
         }
     }
 }
