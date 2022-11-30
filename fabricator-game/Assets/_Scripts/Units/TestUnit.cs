@@ -127,7 +127,8 @@ namespace Fabricator.Units
                 {
                     // Stop when in range
                     //Move(transform.position);
-                    myAgent.SetDestination(transform.position);
+                    if (myAgent != null)
+                        myAgent.SetDestination(transform.position);
                     // Attack
                     if (attackCD <= 0)
                     {
@@ -183,7 +184,8 @@ namespace Fabricator.Units
             if (!isRecovering || forceMove)
             {
                 destination = hit.position;
-                myAgent.SetDestination(destination);
+                if (myAgent != null)
+                    myAgent.SetDestination(destination);
             }
 
             if (setPersistent)
