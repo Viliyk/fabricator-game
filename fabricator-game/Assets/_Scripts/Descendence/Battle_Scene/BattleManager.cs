@@ -49,6 +49,7 @@ public class BattleManager : MonoBehaviour
     private ThisCard attacker;
     private ThisCard enemyAttacker;
     private int lives;
+    private int maxLives;
     private int turnNumber;
     private bool enemyTurn;
     private bool buttonToggle;
@@ -75,9 +76,9 @@ public class BattleManager : MonoBehaviour
 
     private double timeLeft = 10;
     public float energy;
-    private float energyRate = 10.0f;
+    private float energyRate = 5;
     public float enemyEnergy;
-    private float enemyEnergyRate = 4.0f;
+    private float enemyEnergyRate = 4;
     private double timeToEnemyAttack = 20;
 
     private GameObject spawnedBullet;
@@ -109,6 +110,7 @@ public class BattleManager : MonoBehaviour
         yourCards = GlobalControl.Instance.yourCards;   // load player's cards from GlobalControl
         turnNumber = GlobalControl.Instance.turnNumber;
         lives = GlobalControl.Instance.lives;
+        maxLives = GlobalControl.Instance.maxLives;
         battleSpeed = 0.02f;
         buttonToggle = false;
         speedUpText.text = "Speed Up";
@@ -129,8 +131,10 @@ public class BattleManager : MonoBehaviour
         SpawnEnemyCards();
 
         enemyCommander.HP = turnNumber * 200;
+        enemyCommander.healthBar.maxValue = enemyCommander.HP;
 
         yourCommander.HP = lives;
+        yourCommander.healthBar.maxValue = maxLives;
     }
 
     // Text elements, loading next scene
@@ -167,6 +171,19 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    IEnumerator ResourceGainTick()
+    {
+        while (pauseBattle != true)
+        {
+            // Wait for 1 second normally or 0.2 seconds when sped up
+            yield return new WaitForSeconds(1 / (chargeRate * 50));
+
+            // Give energy every tick
+            energy += energyRate;
+            enemyEnergy += enemyEnergyRate;
+        }
+    }
+
     IEnumerator BattleSequence()
     {
         while (pauseBattle != true)
@@ -175,10 +192,6 @@ public class BattleManager : MonoBehaviour
 
             // tick down time
             timeLeft = System.Math.Round(timeLeft - chargeRate, 3);
-
-            // gain energy
-            energy += energyRate * chargeRate * 3;
-            enemyEnergy += enemyEnergyRate * chargeRate * 10;
 
             // tick down enemy attack
             timeToEnemyAttack = System.Math.Round(timeToEnemyAttack - chargeRate, 3);
@@ -205,7 +218,7 @@ public class BattleManager : MonoBehaviour
                 if (t.bought && !t.onHold)
                 {
                     t.currentEnergy += chargeRate * 15;
-                    PayEnergy(chargeRate * 15, false);
+                    //PayEnergy(chargeRate * 15, false);
 
                     if (t.currentEnergy >= t.energyCost)
                     {
@@ -221,7 +234,7 @@ public class BattleManager : MonoBehaviour
                 ThisCard t = enemyStasisMinions[i];
 
                 t.currentEnergy += chargeRate * 15;
-                PayEnergy(chargeRate * 15, true);
+                //PayEnergy(chargeRate * 15, true);
 
                 if (t.currentEnergy >= t.energyCost)
                 {
@@ -966,6 +979,7 @@ public class BattleManager : MonoBehaviour
     {
         timeLeft = 1000;
         pauseBattle = false;
+        StartCoroutine(ResourceGainTick());
         StartCoroutine(BattleSequence());    // start combat
 
         speedUpButton.SetActive(true);      // change start button to speed-up button

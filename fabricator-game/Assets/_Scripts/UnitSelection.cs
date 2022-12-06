@@ -118,7 +118,8 @@ public class UnitSelection : MonoBehaviour
         // Start by detecting when multi selection starts (dragging)
         while (selecting)
         {
-            if (initialMousePos == Input.mousePosition)
+            // Check if the initial mouse position has 10 units difference to the current mouse position
+            if (Vector3.Distance(initialMousePos, Input.mousePosition) < 10f)
             {
                 yield return null;
                 continue;
