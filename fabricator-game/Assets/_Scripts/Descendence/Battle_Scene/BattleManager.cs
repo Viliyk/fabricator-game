@@ -79,7 +79,7 @@ public class BattleManager : MonoBehaviour
     private float energyRate = 5;
     public float enemyEnergy;
     private float enemyEnergyRate = 4;
-    private double timeToEnemyAttack = 20;
+    private double timeToEnemyAttack = 30;
 
     private GameObject spawnedBullet;
 
@@ -199,7 +199,7 @@ public class BattleManager : MonoBehaviour
             {
                 enemySpawner.UnleashUnits();
                 unitSpawner.UnleashUnits();
-                timeToEnemyAttack = 20;
+                timeToEnemyAttack = 30;
 
                 //foreach (ThisCard card in enemyBacklineMinions)
                 //{
@@ -215,6 +215,7 @@ public class BattleManager : MonoBehaviour
             {
                 ThisCard t = yourHand[i];
 
+                // Charge bought cards
                 if (t.bought && !t.onHold)
                 {
                     t.currentEnergy += chargeRate * 15;
@@ -233,13 +234,24 @@ public class BattleManager : MonoBehaviour
             {
                 ThisCard t = enemyStasisMinions[i];
 
-                t.currentEnergy += chargeRate * 15;
-                //PayEnergy(chargeRate * 15, true);
-
-                if (t.currentEnergy >= t.energyCost)
+                // Enemy buys a card as soon as they can afford one
+                if (!t.bought && enemyEnergy >= t.energyCost)
                 {
-                    TriggerOnBuild(t, true);
-                    t.currentEnergy = 0;
+                    PayEnergy(t.energyCost, true);
+                    t.bought = true;
+                }
+
+                // Charge bought cards
+                if (t.bought && !t.onHold)
+                {
+                    t.currentEnergy += chargeRate * 15;
+                    //PayEnergy(chargeRate * 15, true);
+
+                    if (t.currentEnergy >= t.energyCost)
+                    {
+                        TriggerOnBuild(t, true);
+                        t.currentEnergy = 0;
+                    }
                 }
             }
 
