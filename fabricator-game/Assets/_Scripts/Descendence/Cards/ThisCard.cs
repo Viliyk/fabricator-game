@@ -21,8 +21,8 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public bool station;
     public int attack;
     public int health;
-    public double cooldown;
-    public double baseCooldown;
+    public float buildTime;
+    public float baseBuildTime;
     private int baseHealth;
     private Color frameColor;
     public string type;
@@ -112,7 +112,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             station = thisCard[0].station;
             attack = thisCard[0].attack;
             health = thisCard[0].health;
-            cooldown = thisCard[0].cooldown;
+            buildTime = thisCard[0].buildTime;
             type = thisCard[0].type;
             thisSprite = thisCard[0].thisImage;
 
@@ -151,7 +151,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 
         baseHealth = health;
-        baseCooldown = cooldown;
+        baseBuildTime = buildTime;
         currentEnergy = 0;
 
         if (!copy)
@@ -181,8 +181,8 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     void Update()
     {
-        chargeSlider.maxValue = (float)baseCooldown;                     // set charge bar
-        chargeSlider.value = (float)baseCooldown - (float)cooldown;
+        chargeSlider.maxValue = baseBuildTime;                     // set charge bar
+        chargeSlider.value = baseBuildTime - buildTime;
 
 
         stasisSlider.maxValue = energyCost;
@@ -207,7 +207,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             else
                 tauntIcon.SetActive(false);
 
-            cooldownText.text = baseCooldown.ToString("F1") + "s";
+            cooldownText.text = baseBuildTime.ToString("F1") + "s";
             descriptionText.text = cardDescription;
             nameText.text = cardName;
             tierText.text = "" + tier;

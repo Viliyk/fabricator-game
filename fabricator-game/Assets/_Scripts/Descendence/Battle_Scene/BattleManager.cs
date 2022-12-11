@@ -210,26 +210,25 @@ public class BattleManager : MonoBehaviour
                 //enemyBacklineMinions.RemoveAll(item => !item.backline);
             }
 
-            // tick down build cooldowns
+            // Tick down build times
             for (int i = 0; i < yourHand.Count; i++)
             {
                 ThisCard t = yourHand[i];
 
-                // Charge bought cards
+                // Advance bought cards
                 if (t.bought && !t.onHold)
                 {
-                    t.currentEnergy += chargeRate * 15;
-                    //PayEnergy(chargeRate * 15, false);
+                    t.buildTime -= chargeRate;
 
-                    if (t.currentEnergy >= t.energyCost)
+                    if (t.buildTime <= 0)
                     {
                         TriggerOnBuild(t, false);
-                        t.currentEnergy = 0;
+                        t.buildTime = t.baseBuildTime;
                     }
                 }
             }
 
-            // tick down enemy build cooldowns
+            // Tick down enemy build times
             for (int i = 0; i < enemyStasisMinions.Count; i++)
             {
                 ThisCard t = enemyStasisMinions[i];
@@ -241,16 +240,15 @@ public class BattleManager : MonoBehaviour
                     t.bought = true;
                 }
 
-                // Charge bought cards
+                // Advance bought cards
                 if (t.bought && !t.onHold)
                 {
-                    t.currentEnergy += chargeRate * 15;
-                    //PayEnergy(chargeRate * 15, true);
+                    t.buildTime -= chargeRate;
 
-                    if (t.currentEnergy >= t.energyCost)
+                    if (t.buildTime <= 0)
                     {
                         TriggerOnBuild(t, true);
-                        t.currentEnergy = 0;
+                        t.buildTime = t.baseBuildTime;
                     }
                 }
             }
