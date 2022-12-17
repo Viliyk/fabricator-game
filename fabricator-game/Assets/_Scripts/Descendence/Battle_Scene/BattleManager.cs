@@ -385,42 +385,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void SpawnUnit(ThisCard activatedCard, bool isEnemy)
-    {
-        // ******************* TEST *****************
-        //Vector3 spawnPoint;
-        //GameObject spawnedUnit;
-        //TestUnit unitStats;
-
-        //if (!isEnemy)
-        //    spawnPoint = new Vector3(0, 0, -5);
-        //else
-        //    spawnPoint = new Vector3(0, 0, 12);
-
-        //spawnedUnit = Instantiate(unitTemplate, spawnPoint, Quaternion.identity);
-        //unitStats = spawnedUnit.GetComponent<TestUnit>();
-        //unitStats.AD = activatedCard.attack;
-        //unitStats.HP = activatedCard.health;
-
-        //if (isEnemy)
-        //{
-        //    unitStats.isEnemy = true;
-        //    spawnedUnit.layer = 7;
-        //}
-        // ******************************************
-
-
-        //if (t.admission)
-        //{
-        //    inactiveMinion = t;
-        //    inactiveMinionBlueprint = playedCard;
-        //    GlobalControl.Instance.targetMode = true;
-        //    SetViableTargets(t);
-        //}
-        //else
-        //ActivateMinion(playedCard, t, null);
-    }
-
     void SetAvailableEnemies()
     {
         int level = 1;
