@@ -1,12 +1,9 @@
 fileFormatVersion: 2
-guid: 9322c27b7fbad374f9d73739cea93b28
+guid: d56156ed7f891f9439962e30e921428e
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - flashEffect: {instanceID: 0}
-  - explosion: {instanceID: 0}
-  - healthBar: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

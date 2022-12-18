@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CanTakeDamage : MonoBehaviour
 {
     [SerializeField] private SimpleFlash flashEffect = null;
+    [SerializeField] private GameObject explosion = null;
 
     public float HP = 500;
     public Slider healthBar;
@@ -34,6 +35,12 @@ public class CanTakeDamage : MonoBehaviour
 
     private void Die()
     {
+        if (explosion != null)
+        {
+            GameObject deathExplosion = Instantiate(explosion, transform.position, Quaternion.identity);
+            //deathExplosion.transform.localScale = new Vector3(0.04f, 0.04f, 0.04f);
+        }
+
         UnitSelection.Instance.selectedObjects.Remove(GetComponent<ISelectable>());
         Destroy(gameObject);
     }

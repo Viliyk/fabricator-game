@@ -818,6 +818,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flashEffect: {fileID: 5331003921845617671}
+  explosion: {fileID: 6965153489428489784, guid: 57552bf3aad62ca4db3ec29b68ca2f81, type: 3}
   HP: 5
   healthBar: {fileID: 6449233455605984202}
 --- !u!114 &5331003921845617671
@@ -841,6 +842,7 @@ MonoBehaviour:
   - {fileID: 5854083666942794402}
   - {fileID: 2180918316482238337}
   - {fileID: 2793484812091448128}
+  meshRenderers: []
 --- !u!195 &7165111097356326676
 NavMeshAgent:
   m_ObjectHideFlags: 0
