@@ -36,8 +36,9 @@ public class FadeAndGrow : MonoBehaviour
         while (currentLerpValue < 1.0f)
         {
             currentLerpValue += lerpValueIncrement * Time.deltaTime;
-            spriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(startAlpha, endAlpha, currentLerpValue));
-            spriteRenderer.transform.localScale = Vector3.Lerp(startScale, endScale, currentLerpValue);
+            spriteRenderer.color = new Color(1, 1, 1, Mathf.Lerp(startAlpha, endAlpha, Mathf.Pow(currentLerpValue, 3)));
+            spriteRenderer.transform.localScale = Vector3.Lerp(startScale, endScale, Mathf.Pow(currentLerpValue, 0.35f));
+
             yield return null;
         }
 
