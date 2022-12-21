@@ -9,6 +9,7 @@ public class Card : MonoBehaviour
     public string cardName;
     public string cardDescription;
     public int tier;
+    public int techLevel;
     public int cost;
     public int attack;
     public int health;
@@ -24,8 +25,9 @@ public class Card : MonoBehaviour
     public List<List<int>> abilityList = new List<List<int>>();
 
     // constructor that allows cards to be added in the database
-    public static Card MakeObject(GameObject gameObject, int Id, string CardName, List<List<int>> AbilityList, string CardDescription, int Tier, int Cost,
-        float EnergyCost, bool Station, int Attack, int Health, float buildTime, string Type, Sprite ThisImage, string Color)
+    public static Card MakeObject(GameObject gameObject, int Id, string CardName, List<List<int>> AbilityList, string CardDescription,
+        int Tier, int TechLevel, int Cost, float EnergyCost, bool Station, int Attack, int Health, float buildTime, string Type,
+        Sprite ThisImage, string Color)
     {
         Card obj = gameObject.AddComponent<Card>();
         obj.id = Id;
@@ -33,6 +35,7 @@ public class Card : MonoBehaviour
         obj.abilityList = AbilityList;
         obj.cardDescription = CardDescription;
         obj.tier = Tier;
+        obj.techLevel = TechLevel;
         obj.cost = Cost;
         obj.energyCost = EnergyCost;
         obj.station = Station;

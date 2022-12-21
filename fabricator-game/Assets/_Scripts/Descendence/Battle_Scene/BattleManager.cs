@@ -28,6 +28,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private TMP_Text enemyEnergyText = null;
     [SerializeField] private TMP_Text enemyAttackText = null;
     [SerializeField] private TMP_Text baseUpText = null;
+    [SerializeField] private TMP_Text techLevelText = null;
     [SerializeField] private GameObject startButton = null;
     [SerializeField] private GameObject speedUpButton = null;
     [SerializeField] private GameObject bullet = null;
@@ -87,7 +88,8 @@ public class BattleManager : MonoBehaviour
     public int backlineSlots = 6;
     public int enemyBacklineSlots = 6;
 
-    private int baseUpCost = 50;
+    public int techLevel = 1;
+    private int techUpCost = 50;
 
     // targeted admission variables
     private ThisCard targetedAdmissionCard = null;
@@ -158,7 +160,7 @@ public class BattleManager : MonoBehaviour
         timeLeftText.text = timeLeft.ToString("F1");
         energyText.text = energy.ToString("F0");
         enemyEnergyText.text = enemyEnergy.ToString("F0");
-        baseUpText.text = "Upgrade: " + baseUpCost;
+        baseUpText.text = "Upgrade: " + techUpCost;
         enemyAttackText.text = timeToEnemyAttack.ToString("F1");
 
         // Load shop scene
@@ -963,19 +965,20 @@ public class BattleManager : MonoBehaviour
     // button
     public void UpgradeButton()
     {
-        if (energy >= baseUpCost)
+        if (energy >= techUpCost && techLevel < 4)
         {
-            PayEnergy(baseUpCost, false);
-            baseUpCost += 100;
+            PayEnergy(techUpCost, false);
+            techUpCost += 100;
 
-            energyRate += 5f;
+            //energyRate += 5f;
 
-            //RectTransform rt = backline.GetComponent<RectTransform>();
-            //RectTransform highlightRT = backlineHighlight.GetComponent<RectTransform>();
+            techLevel++;
+            techLevelText.text = "Tech level: " + techLevel;
 
-            //backlineSlots += 2;
-            //rt.sizeDelta += new Vector2(120, 0);
-            //highlightRT.sizeDelta += new Vector2(120, 0);
+            backlineSlots += 2;
+            
+            RectTransform rt = backline.GetComponent<RectTransform>();
+            rt.sizeDelta += new Vector2(120, 0);
         }
     }
 

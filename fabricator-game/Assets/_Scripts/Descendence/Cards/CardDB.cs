@@ -46,11 +46,11 @@ public class CardDB : MonoBehaviour
 
         //                              GameObject, int, string, list,                  string, int,  int,   float,      bool,    int,    int,    float,     string, Sprite,                                      string
         //                              gameObject, Id,  Name,   Abilities,             Text,   Tier, Cost,  EnergyCost, Station, Attack, Health, BuildTime, Type,   ThisImage,                                   Color
-        cardList.Add(0, Card.MakeObject(gameObject, 0,   "None", AddAbilities(0, 0, 0), "None", 0,    3,     100,        false,   0,      1,      1,         "None", Resources.Load<Sprite>("Card_Images/smorc"), "Red"));
+        cardList.Add(0, Card.MakeObject(gameObject, 0,   "None", AddAbilities(0, 0, 0), "None", 0, 1,    3,     100,        false,   0,      1,      1,         "None", Resources.Load<Sprite>("Card_Images/smorc"), "Red"));
         // TIER 1
-        cardList.Add(1, Card.MakeObject(gameObject, 1, "Slime Colony", AddAbilities(13, 0, 0), "Admission: Summon a 1/1 Chimera", 1, 3, 80, false, 15, 50, 7, "Chimera", Resources.Load<Sprite>("Card_Images/smorc"), "Green"));
-        cardList.Add(2, Card.MakeObject(gameObject, 2, "Malignant Matter", AddAbilities(2, 0, 0), "Taunt. Admission: Deal 2 damage to an enemy Minion", 1, 3, 100, false, 20, 110, 10, "Defect", Resources.Load<Sprite>("Card_Images/malignant_matter"), "Blue"));
-        cardList.Add(3, Card.MakeObject(gameObject, 3, "Sentinel Scout", AddAbilities(1, 0, 0), "Barrier. Admission: Give a friendly Sentinel +2/+2", 1, 3, 120, false, 20, 150, 12, "Sentinel", Resources.Load<Sprite>("Card_Images/lancer"), "Red"));
+        cardList.Add(1, Card.MakeObject(gameObject, 1, "Slime Colony", AddAbilities(13, 0, 0), "Admission: Summon a 1/1 Chimera", 1, 1, 3, 80, false, 15, 50, 7, "Chimera", Resources.Load<Sprite>("Card_Images/smorc"), "Green"));
+        cardList.Add(2, Card.MakeObject(gameObject, 2, "Malignant Matter", AddAbilities(2, 0, 0), "Taunt. Admission: Deal 2 damage to an enemy Minion", 1, 1, 3, 100, false, 20, 110, 10, "Defect", Resources.Load<Sprite>("Card_Images/malignant_matter"), "Blue"));
+        cardList.Add(3, Card.MakeObject(gameObject, 3, "Sentinel Scout", AddAbilities(1, 0, 0), "Barrier. Admission: Give a friendly Sentinel +2/+2", 1, 2, 3, 120, false, 20, 150, 12, "Sentinel", Resources.Load<Sprite>("Card_Images/lancer"), "Red"));
         //cardList.Add(4, Card.MakeObject(gameObject, 4, "Junkbot", AddAbilities(14, 0, 0), "Admission: Give your other Defects +1 health", 1, 3, 70, false, 2, 5, 3, "Defect", cardBackground, "Blue"));
         //cardList.Add(20, Card.MakeObject(gameObject, 20, "Chimera Egg", AddAbilities(6, 0, 0), "Active: Summon a 1/1 Chimera", 1, 3, 100, false, 0, 7, 5, "Chimera", Resources.Load<Sprite>("Card_Images/eggo"), "Green"));
         //cardList.Add(23, Card.MakeObject(gameObject, 23, "Joe", AddAbilities(3, 0, 0), "Attacks apply 2 Burn", 1, 3, 100, false, 1, 6, 4, "Sentinel", Resources.Load<Sprite>("Card_Images/burn"), "Red"));
@@ -93,10 +93,10 @@ public class CardDB : MonoBehaviour
         //// TIER 6
         //cardList.Add(29, Card.MakeObject(gameObject, 29, "Goose", "After you play a Minion with Admission, give your Defects +1/+1", 6, 3, 4, 12, 1, "Defect", cardBackground, "Blue", false, false, false, false, false, false, false));
         // NOT IN SHOP POOL
-        cardList.Add(19, Card.MakeObject(gameObject, 19, "Slime", AddAbilities(0, 0, 0), "", 0, 3, 50, false, 3, 15, 5, "Chimera", cardBackground, "Green"));
-        cardList.Add(35, Card.MakeObject(gameObject, 35, "Turret", AddAbilities(0, 0, 0), "", 0, 3, 100, false, 1, 10, 10, "Structure", Resources.Load<Sprite>("Card_Images/turret"), "Grey"));
-        cardList.Add(36, Card.MakeObject(gameObject, 36, "Assault Drone", AddAbilities(0, 0, 0), "", 0, 3, 100, false, 20, 100, 10, "", Resources.Load<Sprite>("Card_Images/drone"), "Grey"));
-        cardList.Add(39, Card.MakeObject(gameObject, 39, "Guard Bot", AddAbilities(2, 0, 0), "Taunt", 0, 3, 100, false, 1, 3, 10, "Sentinel", cardBackground, "Red"));
+        cardList.Add(19, Card.MakeObject(gameObject, 19, "Slime", AddAbilities(0, 0, 0), "", 0, 1, 3, 50, false, 3, 15, 5, "Chimera", cardBackground, "Green"));
+        cardList.Add(35, Card.MakeObject(gameObject, 35, "Turret", AddAbilities(0, 0, 0), "", 0, 1, 3, 100, false, 1, 10, 10, "Structure", Resources.Load<Sprite>("Card_Images/turret"), "Grey"));
+        cardList.Add(36, Card.MakeObject(gameObject, 36, "Assault Drone", AddAbilities(0, 0, 0), "", 0, 1, 3, 100, false, 20, 100, 10, "", Resources.Load<Sprite>("Card_Images/drone"), "Grey"));
+        cardList.Add(39, Card.MakeObject(gameObject, 39, "Guard Bot", AddAbilities(2, 0, 0), "Taunt", 0, 1, 3, 100, false, 1, 3, 10, "Sentinel", cardBackground, "Red"));
     }
 
     private List<int> CreateAbility(int a, int b, int c)

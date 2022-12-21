@@ -16,6 +16,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public string cardName;
     public string cardDescription;
     public int tier;
+    public int techLevel;
     public int cost;
     public float energyCost;
     public bool station;
@@ -52,6 +53,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public TMP_Text energyCostText;
     public TMP_Text timeCostText;
     public TMP_Text buildCooldownText;
+    public TMP_Text techLevelText;
 
     public Sprite thisSprite;
     public Image thatImage;
@@ -107,6 +109,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             cardName = thisCard[0].cardName;
             cardDescription = thisCard[0].cardDescription;
             tier = thisCard[0].tier;
+            techLevel = thisCard[0].techLevel;
             cost = thisCard[0].cost;
             energyCost = thisCard[0].energyCost;
             station = thisCard[0].station;
@@ -211,6 +214,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             descriptionText.text = cardDescription;
             nameText.text = cardName;
             tierText.text = "" + tier;
+            techLevelText.text = "" + techLevel;
             attackText.text = "" + attack;
             healthText.text = "" + health;
             attackText2.text = "" + attack;
@@ -223,9 +227,6 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
             thatImage.sprite = thisSprite;
             fullSplash.sprite = thisSprite;
-
-            //if (health < baseHealth)        // turn health red when it's reduced in combat
-            //    healthText.color = new Color32(255, 0, 0, 255);
         }
 
         // no viable targets should exist when target mode is not true
@@ -305,7 +306,7 @@ public class ThisCard : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (bought)
                 onHold = !onHold;
-            else if (bought == false && battleManager.energy >= energyCost)
+            else if (!bought && techLevel <= battleManager.techLevel && battleManager.energy >= energyCost)
             {
                 battleManager.PayEnergy(energyCost, false);
                 DeactivateTargetBorder();
