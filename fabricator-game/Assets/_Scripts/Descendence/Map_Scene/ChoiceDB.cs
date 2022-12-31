@@ -18,6 +18,6 @@ public class ChoiceDB : MonoBehaviour
         // TIER 1
         choiceList.Add(1, Choice.MakeObject(gameObject, 1, "Repair", "Pay 1 gold to restore 10 lives", "Green", cardBackground, 1, 1));
         choiceList.Add(2, Choice.MakeObject(gameObject, 2, "Shop", "Go to a shop where you can buy and sell cards", "Blue", cardBackground, 1, 0));
-        choiceList.Add(3, Choice.MakeObject(gameObject, 3, "Enemy", "Fight an enemy and get rewarded with gold", "Red", Resources.Load<Sprite>("Card_Images/smorc"), 1, 0));
+        choiceList.Add(3, Choice.MakeObject(gameObject, 3, "Enemy", "Fight an enemy and get rewarded with 3 gold", "Red", Resources.Load<Sprite>("Card_Images/smorc"), 1, 0));
     }
 }

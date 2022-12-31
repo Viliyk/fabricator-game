@@ -50,7 +50,7 @@ public class CardDB : MonoBehaviour
         // TIER 1
         cardList.Add(1, Card.MakeObject(gameObject, 1, "Slime Colony", AddAbilities(13, 0, 0), "Admission: Summon a 1/1 Chimera", 1, 1, 3, 80, false, 15, 50, 7, "Chimera", Resources.Load<Sprite>("Card_Images/smorc"), "Green"));
         cardList.Add(2, Card.MakeObject(gameObject, 2, "Malignant Matter", AddAbilities(2, 0, 0), "Taunt. Admission: Deal 2 damage to an enemy Minion", 1, 1, 3, 100, false, 20, 110, 10, "Defect", Resources.Load<Sprite>("Card_Images/malignant_matter"), "Blue"));
-        cardList.Add(3, Card.MakeObject(gameObject, 3, "Sentinel Scout", AddAbilities(1, 0, 0), "Barrier. Admission: Give a friendly Sentinel +2/+2", 1, 2, 3, 120, false, 20, 150, 12, "Sentinel", Resources.Load<Sprite>("Card_Images/lancer"), "Red"));
+        cardList.Add(3, Card.MakeObject(gameObject, 3, "Sentinel Scout", AddAbilities(1, 0, 0), "Barrier. Admission: Give a friendly Sentinel +2/+2", 1, 2, 3, 120, false, 25, 150, 12, "Sentinel", Resources.Load<Sprite>("Card_Images/lancer"), "Red"));
         //cardList.Add(4, Card.MakeObject(gameObject, 4, "Junkbot", AddAbilities(14, 0, 0), "Admission: Give your other Defects +1 health", 1, 3, 70, false, 2, 5, 3, "Defect", cardBackground, "Blue"));
         //cardList.Add(20, Card.MakeObject(gameObject, 20, "Chimera Egg", AddAbilities(6, 0, 0), "Active: Summon a 1/1 Chimera", 1, 3, 100, false, 0, 7, 5, "Chimera", Resources.Load<Sprite>("Card_Images/eggo"), "Green"));
         //cardList.Add(23, Card.MakeObject(gameObject, 23, "Joe", AddAbilities(3, 0, 0), "Attacks apply 2 Burn", 1, 3, 100, false, 1, 6, 4, "Sentinel", Resources.Load<Sprite>("Card_Images/burn"), "Red"));

@@ -1194,6 +1194,12 @@ public class ShopManager : MonoBehaviour
     }
 
     // button
+    public void QuitButton()
+    {
+        Application.Quit();
+    }
+
+    // button
     public void DebugButton()
     {
         GlobalControl.Instance.debugMode = true;
